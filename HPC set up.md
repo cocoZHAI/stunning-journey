@@ -39,7 +39,7 @@ ssh -i ~/.ssh/id_ed25519 fangyi.zhai-umw@hpc.umassmed.edu
 ```bash
 nano ~/.ssh/config
 ```
-#### Write the follwing in the config file
+#### Write the following to the config file
 ``` bash
    Host hpc
    Hostname hpc.umassmed.edu
@@ -51,8 +51,71 @@ nano ~/.ssh/config
 - The User parameter tells ssh what username to log in as. Given the relatively long usernames on the SCI cluster, this is convenient to set so you don't have to specify your username each time you connect.
 - The IdentityFile parameter tells ssh where to find your private key file for logging into the cluster. If you haven't set up keys with OpenSSH before and use defaults this value will likely be ~/.ssh/id_ecdsa, ~/.ssh/id_rsa, or ~/.ssh/id_ed25519; however you can put a key file in any directory and name it whatever you want - as long as this points to the correct location and name of your private key file you should be good.
 #### Open with alias in the terminal
-```bash
+``` bash
 ssh hpc
 ```
 ---
-# Submit a job
+# Setup micromamba
+### Create a sh file for setting it up faster
+``` bash
+nano setup_micromamba.sh
+```
+### Copy and Paste the following to the sh file
+``` bash
+# Tell the system to run the script using the Bash shell
+#!/bin/bash
+
+# Define where micromamba will be installed -- a directory in your home folder
+INSTALL_DIR="$HOME/micromamba"
+
+# Download micromamba binary to ~/micromamba/bin, and makes it executable
+echo "Downloading micromamba..."
+mkdir -p $INSTALL_DIR/bin
+wget https://micro.mamba.pm/api/micromamba/linux-64/latest -O $INSTALL_DIR/bin/micromamba
+chmod +x $INSTALL_DIR/bin/micromamba
+
+echo "Micromamba installed at $INSTALL_DIR"
+
+# Updates your ~/.bashrc (a startup file that runs every time you open a new shell) only if is hasn't already been updated
+# Adds micromamba to your PATH
+# Enables shell support so you can run micromamba activate myenv
+if ! grep -q 'micromamba/bin' ~/.bashrc; then
+  echo "Updating PATH and enabling shell hook in ~/.bashrc"
+  echo 'export PATH="$HOME/micromamba/bin:$PATH"' >> ~/.bashrc
+  echo 'eval "$(micromamba shell hook -s bash)"' >> ~/.bashrc
+fi
+
+# Apply immediately
+export PATH="$INSTALL_DIR/bin:$PATH"
+eval "$($INSTALL_DIR/bin/micromamba shell hook -s bash)"
+
+# Create default environment (change the name!)
+echo "Creating environment 'myenv' with Python 3.10..."
+micromamba create -y -n myenv python=3.10
+
+echo "Setup complete! You can now activate with: micromamba activate myenv"
+```
+### Make is executable
+- When you create a .sh file manually using something like nano or vi, it's just a plain text file by default. It has no special permissions -- including no permission to be executed like a program.
+``` bash
+chmod +x setup_micromamba.sh
+```
+# Run the sh file
+``` bash
+./setup_micromamba.sh
+```
+- Now an enviornmemt named "myenv" is created!
+
+# Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
+- Clone the enviornment
+``` bash
+micromamba create -n yulab --clone myenv
+```
+- Delete the old environment (Optional)
+``` bash
+micromamba remove -n myenv --all
+```
+- Activate the new enviornment
+``` bash
+micromamba activate yulab
+```
