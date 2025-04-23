@@ -46,10 +46,10 @@ nano ~/.ssh/config
    User fangyi.zhai-umw
    IdentityFile ~/.ssh/id_ed25519
 ```
--The Host parameter is the first line in setting up an SSH session, and the values you specify are nicknames you can use with the ssh client (and other OpenSSH commands) instead of typing the entire hostname. In this example I've included hpc and hpc.umassmed.edu so I can use either one to ssh to the cluster.
--The Hostname parameter is the actual DNS name of the host you want to connect to, and there should only be one entry on this line.
--The User parameter tells ssh what username to log in as. Given the relatively long usernames on the SCI cluster, this is convenient to set so you don't have to specify your username each time you connect.
--The IdentityFile parameter tells ssh where to find your private key file for logging into the cluster. If you haven't set up keys with OpenSSH before and use defaults this value will likely be ~/.ssh/id_ecdsa, ~/.ssh/id_rsa, or ~/.ssh/id_ed25519; however you can put a key file in any directory and name it whatever you want - as long as this points to the correct location and name of your private key file you should be good.
+- The Host parameter is the first line in setting up an SSH session, and the values you specify are nicknames you can use with the ssh client (and other OpenSSH commands) instead of typing the entire hostname. In this example I've included hpc and hpc.umassmed.edu so I can use either one to ssh to the cluster.
+- The Hostname parameter is the actual DNS name of the host you want to connect to, and there should only be one entry on this line.
+- The User parameter tells ssh what username to log in as. Given the relatively long usernames on the SCI cluster, this is convenient to set so you don't have to specify your username each time you connect.
+- The IdentityFile parameter tells ssh where to find your private key file for logging into the cluster. If you haven't set up keys with OpenSSH before and use defaults this value will likely be ~/.ssh/id_ecdsa, ~/.ssh/id_rsa, or ~/.ssh/id_ed25519; however you can put a key file in any directory and name it whatever you want - as long as this points to the correct location and name of your private key file you should be good.
 #### Open with alias in the terminal
 ```bash
 ssh hpc
