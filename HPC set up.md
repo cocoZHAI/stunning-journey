@@ -100,13 +100,13 @@ echo "Setup complete! You can now activate with: micromamba activate myenv"
 ``` bash
 chmod +x setup_micromamba.sh
 ```
-# Run the sh file
+### Run the sh file
 ``` bash
 ./setup_micromamba.sh
 ```
 - Now an enviornmemt named "myenv" is created!
 
-# Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
+### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
 - Clone the enviornment
 ``` bash
 micromamba create -n yulab --clone myenv
