@@ -28,9 +28,9 @@
 - Create new config file
 ` nano ~/.ssh/config `
 - Write the follwing in the config file
-  Host hpc
+` Host hpc
    Hostname hpc.umassmed.edu
    User fangyi.zhai-umw
-   IdentityFile ~/.ssh/id_ed25519
+   IdentityFile ~/.ssh/id_ed25519 `
 - Open with alias in the terminal
 ` ssh hpc `
