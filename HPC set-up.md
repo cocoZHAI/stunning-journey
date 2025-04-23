@@ -48,4 +48,5 @@ nano ~/.ssh/config
 ```
 - Open with alias in the terminal
 ```bash
-ssh hpc ```
+ssh hpc
+```
