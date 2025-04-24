@@ -57,10 +57,21 @@ ssh hpc
 ---
 # Setup micromamba
 ### Download micromamba
-- log in to your HPC
-- run the following command: this line directly install the lastest version of micromamba for linux x86_64
-``` curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba ```
-- (Optional) if you want to check what is the system, run: ``` uname -a ```
+- Log in to your HPC
+- Run the following command: this line directly install the lastest version of micromamba for linux x86_64
+```bash
+curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+```
+- (Optional) If you want to check what is the system, run: ``` uname -a ```
+### Install the channels
+``` micromamba config append channels conda-forge
+    micromamba config append channels bioconda
+    micromamba config append channels default
+```
+### Create new enviornment
+``` micromamba create -n myenv python=3.12 -c conda-forge
+```
+### 
 ### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
 - Clone the enviornment
 ``` bash
