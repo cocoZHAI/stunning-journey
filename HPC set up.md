@@ -68,10 +68,12 @@ curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/mi
     micromamba config append channels bioconda
     micromamba config append channels default
 ```
-### Create new enviornment
+### Create new environment
 ``` micromamba create -n myenv python=3.12 -c conda-forge
 ```
-### 
+### Activate environment
+``` micromamba activate myenv
+```
 ### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
 - Clone the enviornment
 ``` bash
