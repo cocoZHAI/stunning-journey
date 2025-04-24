@@ -56,56 +56,11 @@ ssh hpc
 ```
 ---
 # Setup micromamba
-### Create a sh file for setting it up faster
-``` bash
-nano setup_micromamba.sh
-```
-### Copy and Paste the following to the sh file
-``` bash
-# Tell the system to run the script using the Bash shell
-#!/bin/bash
-
-# Define where micromamba will be installed -- a directory in your home folder
-INSTALL_DIR="$HOME/micromamba"
-
-# Download micromamba binary to ~/micromamba/bin, and makes it executable
-echo "Downloading micromamba..."
-mkdir -p $INSTALL_DIR/bin
-wget https://micro.mamba.pm/api/micromamba/linux-64/latest -O $INSTALL_DIR/bin/micromamba
-chmod +x $INSTALL_DIR/bin/micromamba
-
-echo "Micromamba installed at $INSTALL_DIR"
-
-# Updates your ~/.bashrc (a startup file that runs every time you open a new shell) only if is hasn't already been updated
-# Adds micromamba to your PATH
-# Enables shell support so you can run micromamba activate myenv
-if ! grep -q 'micromamba/bin' ~/.bashrc; then
-  echo "Updating PATH and enabling shell hook in ~/.bashrc"
-  echo 'export PATH="$HOME/micromamba/bin:$PATH"' >> ~/.bashrc
-  echo 'eval "$(micromamba shell hook -s bash)"' >> ~/.bashrc
-fi
-
-# Apply immediately
-export PATH="$INSTALL_DIR/bin:$PATH"
-eval "$($INSTALL_DIR/bin/micromamba shell hook -s bash)"
-
-# Create default environment (change the name!)
-echo "Creating environment 'myenv' with Python 3.10..."
-micromamba create -y -n myenv python=3.10
-
-echo "Setup complete! You can now activate with: micromamba activate myenv"
-```
-### Make is executable
-- When you create a .sh file manually using something like nano or vi, it's just a plain text file by default. It has no special permissions -- including no permission to be executed like a program.
-``` bash
-chmod +x setup_micromamba.sh
-```
-### Run the sh file
-``` bash
-./setup_micromamba.sh
-```
-- Now an enviornmemt named "myenv" is created!
-
+### Download micromamba
+- log in to your HPC
+- run the following command: this line directly install the lastest version of micromamba for linux x86_64
+``` curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba ```
+- (Optional) if you want to check what is the system, run: ``` uname -a ```
 ### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
 - Clone the enviornment
 ``` bash
