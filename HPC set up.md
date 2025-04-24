@@ -64,16 +64,17 @@ curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/mi
 ```
 - (Optional) If you want to check what is the system, run: ``` uname -a ```
 ### Install the channels
-``` micromamba config append channels conda-forge
+``` bash micromamba config append channels conda-forge
     micromamba config append channels bioconda
     micromamba config append channels default
 ```
 ### Create new environment
-``` micromamba create -n myenv python=3.12 -c conda-forge
-```
-### Activate environment
-``` micromamba activate myenv
-```
+``` micromamba create -n myenv python=3.12 -c conda-forge ```
+### De/Activate environment
+``` micromamba activate myenv ```
+``` micromamba deactivate ```
+### List all environments you created
+``` micromamba env list ```
 ### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
 - Clone the enviornment
 ``` bash
