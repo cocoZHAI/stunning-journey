@@ -73,6 +73,7 @@ curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/mi
 ``` micromamba create -n myenv python=3.12 -c conda-forge ```
 ### De/Activate environment
 ``` micromamba activate myenv ```
+or
 ``` micromamba deactivate ```
 ### List all environments you created
 ``` micromamba env list ```
