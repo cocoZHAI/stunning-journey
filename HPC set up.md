@@ -94,7 +94,7 @@ The first important thing is that logging into head nodes (@hpcc03) does not mea
 - To run computations on the cluster, you need to submit a job script (or an interactive job request) to a scheduler (like Slurm, PBS, or LSF), which will allocate resources on one or more compute nodes and execute your job there. UMASS Chan HPC uses LSF Spectrum Job Scheduler.
 In LSF (Load Sharing Facility), jobs can be submitted in two main ways: interactive and batch.
 ### Interactive vs Batch
-- Interactive: You request resources and get a terminal or session on a compute node, allowing you to run commands interactively. Good for debugging, development, testing small jobs, using GUI-based tools, or interactive programs like Python, R, or Jupyter.
+Interactive: You request resources and get a terminal or session on a compute node, allowing you to run commands interactively. Good for debugging, development, testing small jobs, using GUI-based tools, or interactive programs like Python, R, or Jupyter.
 To submit an interactive job, run the following command:
 ``` bash
 bsub -Is -n3 -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
@@ -107,7 +107,7 @@ bsub -Is -n3 -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
 - ```-o "$HOME/%J.out"```: specify the job's standard output to the file you specify
 - ```-e "$HOME/%J.err"```: specify the job's standard error to the file you specify
 - ```-u email_address```: By default, the scheduler will attempt to send the output to your UMass Chan email account
-- Batch: A non-interactive job submitted to the queue and run when resources are available. Good for long-running or resource-intensive computations that don’t need human input during execution.
+Batch: A non-interactive job submitted to the queue and run when resources are available. Good for long-running or resource-intensive computations that don’t need human input during execution.
 To submit a batch job, run the following command:
 ``` bash
 bsub -q long -o my_out.%J -e my_err.%J ./script
