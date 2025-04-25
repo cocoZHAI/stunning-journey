@@ -92,7 +92,29 @@ The first important thing is that logging into head nodes (@hpcc03) does not mea
 - Head nodes (like hpcc03 and hpcc04) are primarily for submitting jobs, compiling code, managing files, and lightweight tasks. They are not meant for running heavy computations directly.
 - Running commands directly on the head node (even if you get a prompt and can execute something like python script.py) doesn't mean your task is using the cluster's compute nodes — it's just running on the head node itself, which is shared and typically resource-limited.
 - To run computations on the cluster, you need to submit a job script (or an interactive job request) to a scheduler (like Slurm, PBS, or LSF), which will allocate resources on one or more compute nodes and execute your job there. UMASS Chan HPC uses LSF Spectrum Job Scheduler.
+In LSF (Load Sharing Facility), jobs can be submitted in two main ways: interactive and batch.
+### Interactive vs Batch
+- Interactive: You request resources and get a terminal or session on a compute node, allowing you to run commands interactively. Good for debugging, development, testing small jobs, using GUI-based tools, or interactive programs like Python, R, or Jupyter.
 To submit an interactive job, run the following command:
 ``` bash
-bsub -Is -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
+bsub -Is -n3 -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
 ```
+- ```-n```: specify the number of cores
+- ```-R"span[hosts=1]"```: If you are specifying more than once core, you will most likely want to specify that all cores need to be on the same node.
+- ```-R"rusage[mem=2G]"```: Request 2G memory per cpu core.
+- ```-q interactive```: job should be submiited to the long queue
+- ```-W 8:00```: the maximum runtime for this job
+- ```-o "$HOME/%J.out"```: specify the job's standard output to the file you specify
+- ```-e "$HOME/%J.err"```: specify the job's standard error to the file you specify
+- ```-u email_address```: By default, the scheduler will attempt to send the output to your UMass Chan email account
+- Batch: A non-interactive job submitted to the queue and run when resources are available. Good for long-running or resource-intensive computations that don’t need human input during execution.
+To submit a batch job, run the following command:
+``` bash
+bsub -q long -o my_out.%J -e my_err.%J ./script
+```
+### Showing and Terminating jobs
+- ```bjobs```: show your currently pending and running jobs
+- ```bjobs -a```: show recently ended jobs
+- ```bjobs -p```: show pending jobs and what they are waiting for to be dispatched
+- ```bkill```: terminate jobs
+- ```bkill jobID```: kill specific jobID number
