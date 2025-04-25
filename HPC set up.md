@@ -102,7 +102,7 @@ bsub -Is -n3 -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
 - ```-n```: specify the number of cores
 - ```-R"span[hosts=1]"```: If you are specifying more than once core, you will most likely want to specify that all cores need to be on the same node.
 - ```-R"rusage[mem=2G]"```: Request 2G memory per cpu core.
-- ```-q interactive```: job should be submiited to the long queue
+- ```-q interactive```: job should be submited to the interactive queue
 - ```-W 8:00```: the maximum runtime for this job
 - ```-o "$HOME/%J.out"```: specify the job's standard output to the file you specify
 - ```-e "$HOME/%J.err"```: specify the job's standard error to the file you specify
