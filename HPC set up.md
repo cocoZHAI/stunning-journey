@@ -84,3 +84,15 @@ or
 ``` micromamba remove -n myenv --all ```
 - Activate the new enviornment
 ``` micromamba activate yulab ```
+
+---
+# Submit a job
+Now you log into your HPC account, what's next?
+The first important thing is that logging into head nodes (@hpcc03) does not mean your commands are running on the cluster now. 
+- Head nodes (like hpcc03 and hpcc04) are primarily for submitting jobs, compiling code, managing files, and lightweight tasks. They are not meant for running heavy computations directly.
+- Running commands directly on the head node (even if you get a prompt and can execute something like python script.py) doesn't mean your task is using the cluster's compute nodes — it's just running on the head node itself, which is shared and typically resource-limited.
+- To run computations on the cluster, you need to submit a job script (or an interactive job request) to a scheduler (like Slurm, PBS, or LSF), which will allocate resources on one or more compute nodes and execute your job there. UMASS Chan HPC uses LSF Spectrum Job Scheduler.
+To submit an interactive job, run the following command:
+``` bash
+bsub -Is -q interactive -W 8:00 -R "rusage[mem=2G] span[hosts=1]" /bin/bash
+```
