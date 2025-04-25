@@ -33,4 +33,5 @@ You should see something like
 /home/fangyi.zhai-umw/micromamba/envs/diann
 ```
 The executive line for diann is ```diann-linux```
-- 
+Now you are ready to run diann!
+
