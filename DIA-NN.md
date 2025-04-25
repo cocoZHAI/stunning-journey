@@ -9,7 +9,8 @@ Activate that environment:
 
 Now you are ready to work with diann!
 
-## diann-2.1.0 is available under module control as module 'diann/2.1.0'
+## Load diann module
+# diann-2.1.0 is available under module control as module 'diann/2.1.0'
 - (Optional) Check all the modules available: ``` module avail```
 Use ```q``` to exit out the module viewing
 - Load the module: ```module load diann/2.1.0```
