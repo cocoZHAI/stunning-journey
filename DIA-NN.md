@@ -40,15 +40,15 @@ Now you are ready to run diann!
 
 ## Generate spectral library (general library)
 ```bash
-diann-linux
---verbose 1 \
---gen-spec-lib \
---fasta-search \
---cut K*,R* \
---var-mods 1 \
---mods UniMod:4,57.021464,C \
---var-mod UniMod:35,15.9949146221,M \
---missed_cleavages 2 \
---fasta /data/uniprot.fasta \
---out-lib /data/uniprot_predicted.speclib
+diann-linux \
+  --verbose 4 \
+  --gen-spec-lib \
+  --fasta-search \
+  --cut K*,R* \
+  --var-mods 1 \
+  --var-mod UniMod:35,15.9949146221,M \
+  --fixed-mod UniMod:4,57.021464,C \
+  --missed-cleavages 2 \
+  --fasta /data/uniprot.fasta \
+  --out-lib /data/uniprot_predicted.speclib \
 ```
