@@ -49,7 +49,7 @@ diann-linux \
   --var-mod UniMod:35,15.9949146221,M \
   --fixed-mod UniMod:4,57.021464,C \
   --missed-cleavages 2 \
-  --fasta ./uniprot.fasta \
+  --fasta diann/uniprot.fasta \
   --peptidoforms \
-  --out-lib ./uniprot_predicted.speclib
+  --out-lib diann/uniprot_predicted.speclib
 ```
