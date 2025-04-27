@@ -56,7 +56,7 @@ diann-linux \
   --verbose 4 \
   --threads 16 \
   --f qymp1_00254_qy_dia_8min_rpe1_3.raw \
-  --lib uniprot_predicted.speclib \
+  --lib uniprot_predicted.predicted.speclib \
   --peptidoforms \
   --export-quant \
   --reannotate \
