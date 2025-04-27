@@ -50,6 +50,32 @@ diann-linux \
   --peptidoforms \
   --out-lib uniprot_predicted.speclib
 ```
+
+For generating PTM spectral library (e.g. phosphorylation)
+```bash
+diann-linux \
+  --verbose 4 \
+  --threads 16 \
+  --predictor \
+  --gen-spec-lib \
+  --fasta-search \
+  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+  --cut K*,R* \
+  --var-mods 1 \
+  --var-mod UniMod:35,15.9949146221,M \
+  --fixed-mod UniMod:4,57.021464,C \
+  --missed-cleavages 2 \
+  --max-pep-len 30 \
+  --min-pep-len 7 \
+  --max-pr-charge 5 \
+  --min-pr-charge 2 \
+  --max-pr-charge 980 \
+  --min-pr-mz 380 \
+  --pg-level 1 \
+  --peptidoforms \
+  --out-lib uniprot_predicted.speclib
+```
+
 ## Step 2: Analyze the raw data using the generated spectral library
 ```bash
 diann-linux \
