@@ -17,7 +17,7 @@ Use ```q``` to exit out the module viewing
 - Run diann with the following command
 For an interactive shell:
 ```bash
-bsub -q short -Is singularity shell $DIANNIMG /bin/bash
+bsub -q interactive -n8  -W 4:00 -R "rusage[mem=2G] span[hosts=1]" -Is singularity shell $DIANNIMG /bin/bash
 ```
 For a non-interactive job:
 ``` bash
