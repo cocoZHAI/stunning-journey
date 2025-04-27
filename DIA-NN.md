@@ -42,6 +42,7 @@ Now you are ready to run diann!
 ```bash
 diann-linux \
   --verbose 4 \
+  --threads 8 \
   --predictor \
   --gen-spec-lib \
   --fasta-search \
