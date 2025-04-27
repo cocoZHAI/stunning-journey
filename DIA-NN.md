@@ -50,6 +50,8 @@ diann-linux \
   --f qymp1_00254_qy_dia_8min_rpe1_3.raw \
   --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
   --peptidoforms \
+  --export-quant \
+  --reannotate \
   --out-lib uniprot_predicted.speclib
 ```
 
