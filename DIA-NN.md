@@ -61,10 +61,11 @@ diann-linux \
   --fasta-search \
   --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
   --cut K*,R* \
-  --var-mods 1 \
+  --var-mods 3 \
   --var-mod UniMod:35,15.9949146221,M \
+  --var-mod UniMod:21,79.966331,STY \
   --fixed-mod UniMod:4,57.021464,C \
-  --missed-cleavages 2 \
+  --missed-cleavages 1 \
   --max-pep-len 30 \
   --min-pep-len 7 \
   --max-pr-charge 5 \
@@ -73,7 +74,7 @@ diann-linux \
   --min-pr-mz 380 \
   --pg-level 1 \
   --peptidoforms \
-  --out-lib uniprot_predicted.speclib
+  --out-lib uniprot_phos.speclib
 ```
 
 ## Step 2: Analyze the raw data using the generated spectral library
