@@ -1,3 +1,4 @@
+The original github page can be found: https://github.com/vdemichev/DiaNN
 Note that some options below are strongly detrimental to performance and are only there for benchmarking purposes. So the recommendation is to only use the options which are expected to be beneficial for a particular experiment (e.g. those recommended in the present guide) based on some clear rationale.
 
 - --about display information with basic links and notices for this DIA-NN version
