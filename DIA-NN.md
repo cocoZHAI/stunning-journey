@@ -26,14 +26,14 @@ For a non-interactive job:
 
 Now you are ready to run diann!
 
-## Generate spectral library (general library) and analyse the data (No PTM is included)
+## Step 1: Generate the spectral library
 ```bash
 diann-linux \
   --verbose 4 \
   --threads 16 \
   --predictor \
   --gen-spec-lib \
-  --fasta-search \
+  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
   --cut K*,R* \
   --var-mods 1 \
   --var-mod UniMod:35,15.9949146221,M \
@@ -46,17 +46,20 @@ diann-linux \
   --max-pr-charge 980 \
   --min-pr-mz 380 \
   --pg-level 1 \
-  --no-prot-inf \
+  --out-lib uniprot_predicted.speclib
+```
+## Step 2: Analyze the raw data using the generated spectral library
+```bash
+diann-linux \
+  --verbose 4 \
+  --threads 16 \
   --f qymp1_00254_qy_dia_8min_rpe1_3.raw \
-  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+  --lib uniprot_predicted.speclib
   --peptidoforms \
   --export-quant \
   --reannotate \
-  --out-lib uniprot_predicted.speclib \
   --out qymp1_00254_qy_dia_8min_rpe1_3_report.parquet
 ```
-
-
 ## Write all the command into a script for simplier execution
 - Create a .sh file to submit the job and run the command: ```nano diann_job.sh```
 - It will open the nano text editor. You can paste the following example command into the text. This is the example for generating a spectral_library.
