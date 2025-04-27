@@ -51,7 +51,7 @@ diann-linux \
   --var-mod UniMod:35,15.9949146221,M \
   --fixed-mod UniMod:4,57.021464,C \
   --missed-cleavages 2 \
-  --fasta diann/uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
   --peptidoforms \
-  --out-lib diann/uniprot_predicted.speclib
+  --out-lib uniprot_predicted.speclib
 ```
