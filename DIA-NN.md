@@ -52,7 +52,8 @@ diann-linux \
   --peptidoforms \
   --export-quant \
   --reannotate \
-  --out-lib uniprot_predicted.speclib
+  --out-lib uniprot_predicted.speclib \
+  --out qymp1_00254_qy_dia_8min_rpe1_3_report.parquet
 ```
 
 
