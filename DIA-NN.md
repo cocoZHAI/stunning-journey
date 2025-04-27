@@ -55,9 +55,15 @@ diann-linux \
    #BSUB -o "%J.out"
    #BSUB -e "%J.err"
 
+   # Activate diann micromamba environment
+   micromamba activate diann
+
+   # Go to the diann directory
    cd diann
+
+   # Load DIANN module
+   module load diann/2.1.0
    
-   # Run the real command below
    # Load into Singularity container and open shell
    singularity shell $DIANNIMG /bin/bash
 
