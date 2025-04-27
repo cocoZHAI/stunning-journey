@@ -33,6 +33,7 @@ diann-linux \
   --threads 16 \
   --predictor \
   --gen-spec-lib \
+  --fasta-search \
   --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
   --cut K*,R* \
   --var-mods 1 \
@@ -46,6 +47,7 @@ diann-linux \
   --max-pr-charge 980 \
   --min-pr-mz 380 \
   --pg-level 1 \
+  --peptidoforms \
   --out-lib uniprot_predicted.speclib
 ```
 ## Step 2: Analyze the raw data using the generated spectral library
