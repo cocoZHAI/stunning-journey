@@ -11,47 +11,72 @@ ColabFold is a cloud-based version of the AlphaFold model that runs on Google Co
 
 Local ColabFold is essentially the same software as ColabFold, but it's installed and run locally on your system or an HPC cluster. You set it up manually, often in a Python environment with dependencies. This is the one for HPC.
 
-## Step by step to set up local ColabFold in HPC (guidance copied from repo for Local ColabFold)
-- "Make sure curl, git, and wget commands are already installed on your PC. If not present, you need install them at first."
-``` bash
-which curl
-which git
-which wget
-```
+### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. 
+
+## Step by step to set up local ColabFold in HPC
+### Make sure curl, git, and wget commands are already installed on your PC. If not present, you need install them at first.
+- Check if you already have curl, git and wget:  
+  ``` bash
+  which curl
+  which git
+  which wget
+  ```
 If it returns nothing, it's missing. 
 
-On HPCs, software is often managed through modules (environment modules). You can check available modules:
-```bash
-module avail curl
-module avail git
-module avail wget
-```
+- On HPCs, software is often managed through modules (environment modules). You can check available modules:
+  ```bash
+  module avail curl
+  module avail git
+  module avail wget
+  ```
 
-If they exist, you can load them:
-```bash
-module load curl
-module load git
-module load wget
-```
-- "Make sure your Cuda compiler driver is 11.8 or later (the latest version 12.4 is preferable). "
+- If they exist, you can load them:
+  ```bash
+  module load curl
+  module load git
+  module load wget
+  ```
+### Make sure your Cuda compiler driver is 11.8 or later (the latest version 12.4 is preferable)
 
 ColabFold can run much faster with GPUs (10x-100x speedup). It needs a CUDA-compatible GPU and the CUDA compiler (nvcc) installed. CUDA 11.8+ is required because the underlying deep learning libraries (JAX, PyTorch, TensorFlow, etc.) depend on it.
 
-To check if the CUDA is available in the module list: ``` module avail cuda ```
+- To check if the CUDA is available in the module list: ``` module avail cuda ```
 
-UMass Chan HPC has this CUDA version available: ``` cuda/11.8.0 ```
+- UMass Chan HPC has this CUDA version available: ``` cuda/11.8.0 ```
 
-Load the CUDA moduel: ``` module load cuda/11.8.0 ```
+- Load the CUDA moduel: ``` module load cuda/11.8.0 ```
 
-(Optional) Check it's active: ``` nvcc --version ```
+- (Optional) Check it's active: ``` nvcc --version ```
 
-It should print something like:
-```bash
-nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2022 NVIDIA Corporation
-Built on Wed_Sep_21_10:33:58_PDT_2022
-Cuda compilation tools, release 11.8, V11.8.89
-Build cuda_11.8.r11.8/compiler.31833905_0
-```
+  It should print something like:
+  ```bash
+  nvcc: NVIDIA (R) Cuda compiler driver
+  Copyright (c) 2005-2022 NVIDIA Corporation
+  Built on Wed_Sep_21_10:33:58_PDT_2022
+  Cuda compilation tools, release 11.8, V11.8.89
+  Build cuda_11.8.r11.8/compiler.31833905_0
+  ```
+### Make sure your GNU compiler version is 12.0 or later 
 
+GLIBCXX_3.4.30 is required for openmm 8.0.0 for --amber relaxation. If the version is old (e.g. CentOS 7, Rocky/Almalinux 8, etc.), install a new one and add PATH to it.
 
+- Check your current GCC version: ``` gcc --version ```
+  You should see something like:
+  ```bash
+  gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-24)
+  Copyright (C) 2018 Free Software Foundation, Inc.
+  This is free software; see the source for copying conditions.  There is NO
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ```
+- Check the newer GCC version: ``` module avail gcc ```
+- Load the newest GCC version: ```  module load gcc/12.2.0  ```
+### Download Local ColabFold
+- Download ```install_colabbatch_linux.sh``` from this repository:
+  ```bash
+    wget https://raw.githubusercontent.com/YoshitakaMo/localcolabfold/main/install_colabbatch_linux.sh
+  ```
+- Run it in the directory where you want to install:
+  ```bash
+    bash install_colabbatch_linux.sh
+  ```
+  
