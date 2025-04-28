@@ -89,7 +89,7 @@ or
 ``` micromamba remove -n myenv --all ```
 - Delete a specific package in the environment
 ``` micromamba remove -n myenv python ```
-- Delete the environment
+- Delete the whole environment
 ``` micromamba env remove -n spoc ```
 ---
 # Submit a job
