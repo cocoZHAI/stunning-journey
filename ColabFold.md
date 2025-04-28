@@ -30,7 +30,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 ---
 
-### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. 
+### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. Set the python=3.10 for compatibility with google colaboratory
 
 ---
 
