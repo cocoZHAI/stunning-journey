@@ -96,11 +96,11 @@ diann-linux \
 ``` bash
    #!/bin/sh
    #BSUB -q interactive
-   #BSUB -n 8
-   #BSUB -R "rusage[mem=2G] span[hosts=1]"
-   #BSUB -W 4:00
-   #BSUB -o "%J.out"
-   #BSUB -e "%J.err"
+   #BSUB -n 16
+   #BSUB -R "rusage[mem=6G] span[hosts=1]"
+   #BSUB -W 8:00
+   #BSUB -o "%phospho.out"
+   #BSUB -e "%phospho.err"
 
    # Activate diann micromamba environment
    micromamba activate diann
@@ -116,19 +116,27 @@ diann-linux \
 
    # Run the diann commands
    diann-linux \
-     --verbose 4 \
-     --threads 8 \
-     --predictor \
-     --gen-spec-lib \
-     --fasta-search \
-     --cut K*,R* \
-     --var-mods 1 \
-     --var-mod UniMod:35,15.9949146221,M \
-     --fixed-mod UniMod:4,57.021464,C \
-     --missed-cleavages 2 \
-     --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-     --peptidoforms \
-     --out-lib uniprot_predicted.speclib
+  --verbose 4 \
+  --threads 16 \
+  --predictor \
+  --gen-spec-lib \
+  --fasta-search \
+  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+  --cut K*,R* \
+  --var-mods 3 \
+  --var-mod UniMod:35,15.9949146221,M \
+  --var-mod UniMod:21,79.966331,STY \
+  --fixed-mod UniMod:4,57.021464,C \
+  --missed-cleavages 1 \
+  --max-pep-len 30 \
+  --min-pep-len 7 \
+  --max-pr-charge 5 \
+  --min-pr-charge 2 \
+  --max-pr-charge 980 \
+  --min-pr-mz 380 \
+  --pg-level 1 \
+  --peptidoforms \
+  --out-lib uniprot_phos.speclib
 ```
 
 # Troubleshooting
