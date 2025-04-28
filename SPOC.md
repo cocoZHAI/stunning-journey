@@ -1,4 +1,4 @@
-Preface:
+## Important Links:
 
 The repo for ColabFold is here: https://github.com/sokrypton/ColabFold
 
