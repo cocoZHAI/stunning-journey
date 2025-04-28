@@ -82,6 +82,7 @@ ColabFold can run much faster with GPUs (10x-100x speedup). It needs a CUDA-comp
 GLIBCXX_3.4.30 is required for openmm 8.0.0 for --amber relaxation. If the version is old (e.g. CentOS 7, Rocky/Almalinux 8, etc.), install a new one and add PATH to it.
 
 - Check your current GCC version: ``` gcc --version ```
+
   You should see something like:
   ```bash
   gcc (GCC) 8.5.0 20210514 (Red Hat 8.5.0-24)
@@ -93,6 +94,7 @@ GLIBCXX_3.4.30 is required for openmm 8.0.0 for --amber relaxation. If the versi
 - Load the newest GCC version: ```  module load gcc/12.2.0  ```
 ### Download Local ColabFold
 - Download ```install_colabbatch_linux.sh``` from this repository:
+  
   ```bash
     wget https://raw.githubusercontent.com/YoshitakaMo/localcolabfold/main/install_colabbatch_linux.sh
   ```
@@ -100,4 +102,7 @@ GLIBCXX_3.4.30 is required for openmm 8.0.0 for --amber relaxation. If the versi
   ```bash
     bash install_colabbatch_linux.sh
   ```
-  
+### Add environment variable PATH:
+
+### Run the prediction:
+
