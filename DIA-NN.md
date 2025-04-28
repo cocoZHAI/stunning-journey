@@ -95,9 +95,9 @@ diann-linux \
 - It will open the nano text editor. You can paste the following example command into the text. This is the example for generating a spectral_library.
 ``` bash
    #!/bin/sh
-   #BSUB -q interactive
-   #BSUB -n 16
-   #BSUB -R "rusage[mem=6G] span[hosts=1]"
+   #BSUB -q short
+   #BSUB -n 32
+   #BSUB -R "rusage[mem=8G] span[hosts=1]"
    #BSUB -W 8:00
    #BSUB -o "%phospho.out"
    #BSUB -e "%phospho.err"
@@ -112,31 +112,28 @@ diann-linux \
    module load diann/2.1.0
    
    # Load into Singularity container and open shell
-   singularity shell $DIANNIMG /bin/bash
-
-   # Run the diann commands
-   diann-linux \
-  --verbose 4 \
-  --threads 16 \
-  --predictor \
-  --gen-spec-lib \
-  --fasta-search \
-  --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-  --cut K*,R* \
-  --var-mods 3 \
-  --var-mod UniMod:35,15.9949146221,M \
-  --var-mod UniMod:21,79.966331,STY \
-  --fixed-mod UniMod:4,57.021464,C \
-  --missed-cleavages 1 \
-  --max-pep-len 30 \
-  --min-pep-len 7 \
-  --max-pr-charge 5 \
-  --min-pr-charge 2 \
-  --max-pr-charge 980 \
-  --min-pr-mz 380 \
-  --pg-level 1 \
-  --peptidoforms \
-  --out-lib uniprot_phos.speclib
+   singularity exec $DIANNIMG /diann-2.1.0/diann-linux \
+     --verbose 4 \
+     --threads 32 \
+     --predictor \
+     --gen-spec-lib \
+     --fasta-search \
+     --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+     --cut K*,R* \
+     --var-mods 3 \
+     --var-mod UniMod:35,15.9949146221,M \
+     --var-mod UniMod:21,79.966331,STY \
+     --fixed-mod UniMod:4,57.021464,C \
+     --missed-cleavages 1 \
+     --max-pep-len 30 \
+     --min-pep-len 7 \
+     --max-pr-charge 5 \
+     --min-pr-charge 2 \
+     --max-pr-charge 980 \
+     --min-pr-mz 380 \
+     --pg-level 1 \
+     --peptidoforms \
+     --out-lib uniprot_phos.speclib
 ```
 
 # Troubleshooting
