@@ -13,6 +13,8 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 ### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. 
 
+---
+
 ## Step by step to set up local ColabFold in HPC
 ### Make sure curl, git, and wget commands are already installed on your PC. If not present, you need install them at first.
 - Check if you already have curl, git and wget:  
