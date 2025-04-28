@@ -99,6 +99,8 @@ diann-linux \
    #BSUB -n 32
    #BSUB -R "rusage[mem=8G] span[hosts=1]"
    #BSUB -W 8:00
+   #BSUB -u fangyi.zhai@umassmed.edu
+   #BSUB -N
    #BSUB -o "%phospho.out"
    #BSUB -e "%phospho.err"
 
