@@ -77,14 +77,20 @@ or
 ``` micromamba deactivate ```
 ### List all environments you created
 ``` micromamba env list ```
-### Rename the enviornment (myenv: old enviornment, yulab: new enviornment)
+### Rename the enviornment (oldenv: old enviornment, newenv: new enviornment)
 - Clone the enviornment
-``` micromamba create -n yulab --clone myenv ```
+``` micromamba create -n oldenv --clone myenv ```
 - Delete the old environment (Optional)
-``` micromamba remove -n myenv --all ```
+``` micromamba remove -n oldenv --all ```
 - Activate the new enviornment
-``` micromamba activate yulab ```
-
+``` micromamba activate newenv ```
+### Delete environments or delete packages within
+- Delete all the packages in the environment
+``` micromamba remove -n myenv --all ```
+- Delete a specific package in the environment
+``` micromamba remove -n myenv python ```
+- Delete the environment
+``` micromamba env remove -n spoc ```
 ---
 # Submit a job
 Now you log into your HPC account, what's next?
