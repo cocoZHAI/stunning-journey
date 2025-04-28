@@ -102,7 +102,16 @@ GLIBCXX_3.4.30 is required for openmm 8.0.0 for --amber relaxation. If the versi
   ```bash
     bash install_colabbatch_linux.sh
   ```
-### Add environment variable PATH:
+
+  Now, a folder named "localcolabfold" should appear in your current directory.
+  
+### Install ColabFold in micromamba:
+The tutorial provides the installation for using a conda environment. Please go check it out. 
+
+The following is for users having micromamba environment. When activate a micromamba environment, micromamba temporarily adjusts your PATH to prioritize that environment's bin/ directory. 
+
+- Go inside the "localcolabfold" folder: ``` cd localcolabfold ```
+- Type ``` pip install colabfold ```
 
 ### Run the prediction:
 
