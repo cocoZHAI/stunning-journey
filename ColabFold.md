@@ -2,8 +2,6 @@
 
 The repo for ColabFold in your local PC is here: https://github.com/YoshitakaMo/localcolabfold
 
-The repo for ColabFold is here: https://github.com/sokrypton/ColabFold
-
 The tutorial for running ColabFold notebook on a HPC over SSH is here: https://www.jameslingford.com/blog/colabfold-hpc-ssh-howto/
 
 ## What is ColabFold and how is it compared to alphafold/2.3.1
