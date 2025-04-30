@@ -42,6 +42,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     #BSUB -J colabfold_models_1_2_3
     #BSUB -gpu "num=1"
     #BSUB -n 1
+    #BSUB -W 2:00
     #BSUB -oo MNK1_EIF4E/MNK1_EIF4E_1_2_3.out
     #BSUB -eo MNK1_EIF4E/MNK1_EIF4E_1_2_3.err
     
@@ -170,7 +171,7 @@ for dir in */; do
 #BSUB -J ${base_name}_models
 #BSUB -gpu "num=1"
 #BSUB -n 1
-#BSUB -W 4:00
+#BSUB -W 2:00
 #BSUB -oo ${folder}/${base_name}_1_2_3.out
 #BSUB -eo ${folder}/${base_name}_1_2_3.err
 
