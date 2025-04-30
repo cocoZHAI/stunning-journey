@@ -30,11 +30,6 @@ ColabFold is a cloud-based version of the AlphaFold model that runs on Google Co
 
 Local ColabFold is essentially the same software as ColabFold, but it's installed and run locally on your system or an HPC cluster. You set it up manually, often in a Python environment with dependencies. This is the one for HPC.
 
-
-### Prerequisites
-- Make sure you already create a micromamba environment for colabfold and activate it. 
-- Set the python=3.10 for compatibility with google colaboratory
-
 ### Create .sh file: ``` nano protein1_protein2.sh ```
 
 ### Copy and paste the following script in:
@@ -49,9 +44,6 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     #BSUB -n 1
     #BSUB -oo MNK1_EIF4E_1_2_3.out
     #BSUB -eo MNK1_EIF4E_1_2_3.err
-    
-    # Activate the environment
-    micromamba activate colabfold
     
     # Load the colabfold module
     module load localcolabfold/1.5.5
@@ -176,19 +168,19 @@ for dir in */; do
 #BSUB -J ${base_name}_models
 #BSUB -gpu "num=1"
 #BSUB -n 1
+#BSUB -W 4:00
 #BSUB -oo ${base_name}_1_2_3.out
 #BSUB -eo ${base_name}_1_2_3.err
 
-micromamba activate colabfold
 module load localcolabfold/1.5.5
 
-singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \\
+singularity exec --nv $LOCALCOLABIMG \
     colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 1 "$fasta" "${folder}/model_1"
 
-singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \\
+singularity exec --nv $LOCALCOLABIMG \
     colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 2 "$fasta" "${folder}/model_2"
 
-singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \\
+singularity exec --nv $LOCALCOLABIMG \
     colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 4 "$fasta" "${folder}/model_4"
 EOF
 
