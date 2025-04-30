@@ -70,13 +70,19 @@ singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
 ## What is SPOC and why we use it?
 
 ### Clone the SPOC repository
-- To clone the SPOC repository, use the following command: ``` bash git clone https://github.com/walterlab-HMS/SPOC.git ```
-- Navigate into the cloned directory: ```bash cd SPOC```
+- To clone the SPOC repository, use the following command:
+  ``` bash
+  git clone https://github.com/walterlab-HMS/SPOC.git
+  ```
+- Navigate into the cloned directory: ```cd SPOC```
 
 ### Create environment to load necessary dependencies
 
 If you are using conda or miniconda, please refer to original repo. The following is for micromamba
 
-- create the environment: ```bash micromamba env create -f SPOC/environment.yml ```
-- activate the environment: ```bash micromamba activate spoc_venv ```
+- create the environment:
+  ```bash
+  micromamba env create -f SPOC/environment.yml
+  ```
+- activate the environment: ``` micromamba activate spoc_venv ```
 
