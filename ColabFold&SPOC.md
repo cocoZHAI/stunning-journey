@@ -140,6 +140,8 @@ my_afm_predictions_folder/
 Example Script:
 ```bash
 #!/bin/bash
+# Go to the all_multimer folder
+cd colabfold/All_MNK1
 
 # Loop through each folder containing the FASTA file
 for dir in */; do
