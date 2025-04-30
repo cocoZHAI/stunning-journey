@@ -90,7 +90,7 @@ or
 - Delete a specific package in the environment
 ``` micromamba remove -n myenv python ```
 - Delete the whole environment
-``` micromamba env remove -n spoc ```
+``` micromamba env remove -n myenv ```
 ---
 # Submit a job
 Now you log into your HPC account, what's next?
