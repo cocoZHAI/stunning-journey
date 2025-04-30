@@ -35,9 +35,9 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 ### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. Set the python=3.10 for compatibility with google colaboratory
 
 ---
-Create .sh file: ``` nano protein1_protein2.sh ```
+#### Create .sh file: ``` nano protein1_protein2.sh ```
 
-Copy and paste the following script in:
+#### Copy and paste the following script in:
 
     Example script:
     ```bash
@@ -74,7 +74,7 @@ Copy and paste the following script in:
     ```
     - Running 3 models because that's what spoc were training on.
     
-The example output files will be:
+#### The example output file
 ```bash
 protein1_protein2_folder/
 │-- model 1
@@ -91,6 +91,18 @@ protein1_protein2_folder/
     │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
 ```
 
+#### To reformat the files to run the SPOC (see the format below), we can type in following commands:
+- Make a new directory
+```bash
+mkdir -p my_afm_predictions_folder
+```
+- Copy one a3m.xz file (just from the first model folder)
+```bash
+find . -type f -name '*.a3m.xz' | head -n 1 | xargs -I {} cp {} my_afm_predictions_folder/
+```
+- Copy all .json.xz and .pdb.xz files with the naming pattern you described
+```bash find . -type f \( -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json.xz' -o -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb.xz' \) -exec cp {} my_afm_predictions_folder/ \;
+```
 ---
 # RUN SPOC
 ---
