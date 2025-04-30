@@ -42,8 +42,8 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     #BSUB -J colabfold_models_1_2_3
     #BSUB -gpu "num=1"
     #BSUB -n 1
-    #BSUB -oo MNK1_EIF4E_1_2_3.out
-    #BSUB -eo MNK1_EIF4E_1_2_3.err
+    #BSUB -oo MNK1_EIF4E/MNK1_EIF4E_1_2_3.out
+    #BSUB -eo MNK1_EIF4E/MNK1_EIF4E_1_2_3.err
     
     # Load the colabfold module
     module load localcolabfold/1.5.5
@@ -53,15 +53,15 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     BASE_OUT="MNK1_EIF4E"
     
     # Run model 1
-    singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    singularity exec --nv $LOCALCOLABIMG \
         colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 1 $INPUT ${BASE_OUT}/model_1
     
     # Run model 2
-    singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    singularity exec --nv $LOCALCOLABIMG \
         colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 2 $INPUT ${BASE_OUT}/model_2
     
     # Run model 3
-    singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    singularity exec --nv $LOCALCOLABIMG \
         colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_3
     ```
     - Running 3 models because that's what spoc were training on.
@@ -171,8 +171,8 @@ for dir in */; do
 #BSUB -gpu "num=1"
 #BSUB -n 1
 #BSUB -W 4:00
-#BSUB -oo ${base_name}_1_2_3.out
-#BSUB -eo ${base_name}_1_2_3.err
+#BSUB -oo ${folder}/${base_name}_1_2_3.out
+#BSUB -eo ${folder}/${base_name}_1_2_3.err
 
 module load localcolabfold/1.5.5
 
