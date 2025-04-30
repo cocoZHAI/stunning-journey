@@ -7,7 +7,7 @@ The tutorial for running ColabFold notebook on a HPC over SSH is here: https://w
 The repo for SPOC is here: https://github.com/walterlab-HMS/SPOC
 
 # Run ColabFold
----
+
 ## What is ColabFold and how is it compared to alphafold/2.3.1
 ColabFold
 - Optimized version of AlphaFold (developed by Mirdita et al.)
@@ -30,14 +30,14 @@ ColabFold is a cloud-based version of the AlphaFold model that runs on Google Co
 
 Local ColabFold is essentially the same software as ColabFold, but it's installed and run locally on your system or an HPC cluster. You set it up manually, often in a Python environment with dependencies. This is the one for HPC.
 
----
 
-### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. Set the python=3.10 for compatibility with google colaboratory
+### Prerequisites
+- Make sure you already create a micromamba environment for colabfold and activate it. 
+- Set the python=3.10 for compatibility with google colaboratory
 
----
-#### Create .sh file: ``` nano protein1_protein2.sh ```
+### Create .sh file: ``` nano protein1_protein2.sh ```
 
-#### Copy and paste the following script in:
+### Copy and paste the following script in:
 
     Example script:
     ```bash
@@ -74,7 +74,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     ```
     - Running 3 models because that's what spoc were training on.
     
-#### The example output file
+### The example output file
 ```bash
 protein1_protein2_folder/
 │-- model 1
@@ -91,7 +91,7 @@ protein1_protein2_folder/
     │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
 ```
 
-#### To reformat the files to run the SPOC (see the format below), we can type in following commands:
+### To reformat the files to run the SPOC (see the format below), we can type in following commands
 - Make a new directory
 ```bash
 mkdir -p my_afm_predictions_folder
