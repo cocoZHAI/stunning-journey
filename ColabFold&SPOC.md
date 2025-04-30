@@ -141,7 +141,7 @@ Example Script:
 ```bash
 #!/bin/bash
 # Go to the all_multimer folder
-cd colabfold/TEST
+cd TEST
 
 # Loop through each folder containing the FASTA file
 for dir in */; do
