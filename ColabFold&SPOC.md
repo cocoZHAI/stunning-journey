@@ -106,7 +106,6 @@ find . -type f \( -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.
 ```
 ---
 # RUN SPOC
----
 ## What is SPOC and why we use it?
 
 ### Clone the SPOC repository
