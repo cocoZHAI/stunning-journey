@@ -177,13 +177,13 @@ for dir in */; do
 
 module load localcolabfold/1.5.5
 
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+singularity exec --nv $LOCALCOLABIMG /localcolabfold/localcolabfold-1.5.5/colabfold_batch \
      --templates --num-recycle 3 --num-ensemble 1 --num-models 1 "$fasta" "${folder}/model_1"
 
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+singularity exec --nv $LOCALCOLABIMG /localcolabfold/localcolabfold-1.5.5/colabfold_batch \
      --templates --num-recycle 3 --num-ensemble 1 --num-models 2 "$fasta" "${folder}/model_2"
 
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+singularity exec --nv $LOCALCOLABIMG /localcolabfold/localcolabfold-1.5.5/colabfold_batch \
      --templates --num-recycle 3 --num-ensemble 1 --num-models 4 "$fasta" "${folder}/model_4"
 EOF
 
