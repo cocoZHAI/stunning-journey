@@ -4,6 +4,10 @@ The repo for ColabFold in your local PC is here: https://github.com/YoshitakaMo/
 
 The tutorial for running ColabFold notebook on a HPC over SSH is here: https://www.jameslingford.com/blog/colabfold-hpc-ssh-howto/
 
+The repo for SPOC is here: 
+
+# Run ColabFold
+---
 ## What is ColabFold and how is it compared to alphafold/2.3.1
 ColabFold
 - Optimized version of AlphaFold (developed by Mirdita et al.)
@@ -59,4 +63,20 @@ singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
     colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_3
 ```
 - Running 3 models because that's what spoc were training on.
+
+---
+# RUN SPOC
+---
+## What is SPOC and why we use it?
+
+### Clone the SPOC repository
+- To clone the SPOC repository, use the following command: ``` bash git clone https://github.com/walterlab-HMS/SPOC.git ```
+- Navigate into the cloned directory: ```bash cd SPOC```
+
+### Create environment to load necessary dependencies
+
+If you are using conda or miniconda, please refer to original repo. The following is for micromamba
+
+- create the environment: ```bash micromamba env create -f SPOC/environment.yml ```
+- activate the environment: ```bash micromamba activate spoc_venv ```
 
