@@ -2,11 +2,6 @@
 DIA-NN is an automated software suite for data-independent acquisition (DIA) proteomics data processing.
 You can found more information here: https://github.com/vdemichev/DiaNN
 
-Create a micromamba environment called diann:
-```micromamba create -n diann python=3.12 -c conda-forge```
-Activate that environment:
-``` micromamba activate diann```
-
 Now you are ready to work with diann!
 
 ## Load diann module
@@ -103,9 +98,6 @@ diann-linux \
    #BSUB -N
    #BSUB -o "%phospho.out"
    #BSUB -e "%phospho.err"
-
-   # Activate diann micromamba environment
-   micromamba activate diann
 
    # Go to the diann directory
    cd diann
