@@ -36,7 +36,9 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 ---
 Create .sh file: ``` nano protein1_protein2.sh ```
+
 Copy and paste the following script in:
+
     Example script:
     ```bash
     #!/bin/bash
@@ -71,6 +73,7 @@ Copy and paste the following script in:
         colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_3
     ```
     - Running 3 models because that's what spoc were training on.
+    
 The example output files will be:
 ```bash
 protein1_protein2_folder/
