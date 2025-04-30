@@ -141,7 +141,7 @@ my_afm_predictions_folder/
 Example Script:
 ```bash
 #!/bin/bash
-# Go to the all_multimer folder
+# Go to the folder that contains all the folders for fasta file
 cd TEST
 
 # Loop through each folder containing the FASTA file
@@ -172,8 +172,8 @@ for dir in */; do
 #BSUB -gpu "num=1"
 #BSUB -n 1
 #BSUB -W 2:00
-#BSUB -oo ${folder}/${base_name}_1_2_3.out
-#BSUB -eo ${folder}/${base_name}_1_2_3.err
+#BSUB -oo ${folder}/${base_name}_1_2_4.out
+#BSUB -eo ${folder}/${base_name}_1_2_4.err
 
 module load localcolabfold/1.5.5
 
