@@ -31,4 +31,32 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 ### Prerequisites: Make sure you already create a micromamba environment for colabfold and activate it. Set the python=3.10 for compatibility with google colaboratory
 
 ---
+Example script:
+```bash
+#!/bin/bash
+#BSUB -q gpu
+#BSUB -R "rusage[mem=20G]"
+#BSUB -J colabfold_models_1_2_3
+#BSUB -gpu "num=1"
+#BSUB -n 1
+#BSUB -oo MNK1_EIF4E_1_2_3.out
+#BSUB -eo MNK1_EIF4E_1_2_3.err
+
+# Define input and base output directory
+INPUT="MNK1_EIF4E.fasta"
+BASE_OUT="MNK1_EIF4E"
+
+# Run model 1
+singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 1 $INPUT ${BASE_OUT}/model_1
+
+# Run model 2
+singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 2 $INPUT ${BASE_OUT}/model_2
+
+# Run model 3
+singularity exec --nv /share/pkg/containers/localcolabfold/localcolabfold.sif \
+    colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_3
+```
+- Running 3 models because that's what spoc were training on.
 
