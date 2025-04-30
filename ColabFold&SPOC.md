@@ -98,11 +98,11 @@ mkdir -p my_afm_predictions_folder
 ```
 - Copy one a3m.xz file (just from the first model folder)
 ```bash
-find . -type f -name '*.a3m.xz' | head -n 1 | xargs -I {} cp {} my_afm_predictions_folder/
+find . -type f -name '*.a3m' | head -n 1 | xargs -I {} cp {} my_afm_predictions_folder/
 ```
-- Copy all .json.xz and .pdb.xz files with the naming pattern you described
+- Copy all .json and .pdb files with the naming pattern you described
 ```bash
-find . -type f \( -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json.xz' -o -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb.xz' \) -exec cp {} my_afm_predictions_folder/ \;
+find . -type f \( -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json' -o -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb' \) -exec cp {} my_afm_predictions_folder/ \;
 ```
 ---
 # RUN SPOC
