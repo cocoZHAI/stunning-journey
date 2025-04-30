@@ -116,7 +116,10 @@ If you are using conda or miniconda, please refer to original repo. The followin
   ```bash
   micromamba env create -f SPOC/environment.yml
   ```
-- activate the environment: ``` micromamba activate spoc_venv ```
+- activate the environment:
+  ``` bash
+  micromamba activate spoc_venv
+  ```
 
 ### Run SPOC 
 Here is an example input folder:
