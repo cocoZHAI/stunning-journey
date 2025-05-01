@@ -157,13 +157,6 @@ done
 
 ```
 Example Script for a large number of tasks, e.g., ~2000
-- Find the number of folders within a parent folder
-    ```bash
-    find TEST -mindepth 1 -maxdepth 1 -type d | wc -l
-    ```
-- This file maps job index to input folder. You can generate it with:
-    ```bash
-    find TEST -mindepth 1 -maxdepth 1 -type d > input_folders.txt
     ```
 - The script to run:
     ```bash
@@ -176,15 +169,20 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -W 2:00
     #BSUB -oo TEST/logs/%J_%I.out
     #BSUB -eo TEST/logs/%J_%I.err
-
-    # Move to TEST folder
-    cd TEST
     
+    # Define test and log directories relative to current dir (colabfold/)
+    TEST_DIR="./TEST"
+    LOG_DIR="$TEST_DIR/logs"
+    
+    # Ensure the log directory exists
+    mkdir -p "$LOG_DIR"
+
     module load localcolabfold/1.5.5
     
-    # List all folders with FASTA files
-    folders=($(find . -mindepth 1 -maxdepth 1 -type d | sort))
+    # Generate sorted list of only input folders that contain a FASTA file
+    folders=($(find "$TEST_DIR" -mindepth 1 -maxdepth 1 -type d -exec test -e '{}/'*.fasta \; -print | sort))
     target_folder="${folders[$((LSB_JOBINDEX - 1))]}"
+    
     fasta_file=$(find "$target_folder" -maxdepth 1 -name "*.fasta" | head -n 1)
     
     if [[ -z "$fasta_file" ]]; then
@@ -197,4 +195,5 @@ Example Script for a large number of tasks, e.g., ~2000
     singularity exec --nv "$LOCALCOLABIMG" colabfold_batch \
         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 \
         "$fasta_file" "$target_folder"
+
     ```
