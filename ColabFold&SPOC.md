@@ -163,48 +163,38 @@ Example Script for a large number of tasks, e.g., ~2000
     #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J "predict[1-3]"
+    #BSUB -J colabfold_array[1-XX]  # Replace XX with total number of folders
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
-    #BSUB -oo TEST/logs/%J_%I.out
-    #BSUB -eo TEST/logs/%J_%I.err
-    
-    # Define test and log directories relative to current dir (colabfold/)
-    TEST_DIR="./TEST"
-    LOG_DIR="$TEST_DIR/logs"
-    
-    # Ensure the log directory exists
-    mkdir -p "$LOG_DIR"
+    #BSUB -oo TEST/log/job_%J_%I.out
+    #BSUB -eo TEST/log/job_%J_%I.err
     
     module load localcolabfold/1.5.5
     
-    # Generate sorted list of only input folders that contain a FASTA file
-    folders=($(find "$TEST_DIR" -mindepth 1 -maxdepth 1 -type d -exec find {} -maxdepth 1 -name "*.fasta" \; -print | sort))
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
     
-    # Print the folders being processed
-    echo "Valid folders: ${folders[@]}"
+    # Get all folder names into an array
+    cd TEST
+    folders=($(ls -d */))
     
-    target_folder="${folders[$((LSB_JOBINDEX - 1))]}"
+    # Get the folder corresponding to this array index
+    index=$((LSB_JOBINDEX - 1))
+    folder="${folders[$index]%/}"
     
-    # Check if target folder is valid
-    if [[ -z "$target_folder" ]]; then
-        echo "No valid target folder found for job index $LSB_JOBINDEX"
+    # Find fasta file
+    fasta=$(find "$folder" -maxdepth 1 -name "*.fasta" | head -n 1)
+    
+    # Sanity check
+    if [[ -z "$fasta" ]]; then
+        echo "No FASTA in $folder, skipping..."
         exit 1
     fi
     
-    fasta_file=$(find "$target_folder" -maxdepth 1 -name "*.fasta" | head -n 1)
+    base_name=$(basename "$fasta" .fasta)
     
-    if [[ -z "$fasta_file" ]]; then
-        echo "No FASTA found in $target_folder"
-        exit 1
-    fi
-    
-    echo "Running ColabFold prediction for $fasta_file..."
-    
-    singularity exec --nv "$LOCALCOLABIMG" colabfold_batch \
-        --templates --num-recycle 3 --num-ensemble 1 --num-models 3 \
-        "$fasta_file" "$target_folder"
+    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "$folder"
 
 
     ```
