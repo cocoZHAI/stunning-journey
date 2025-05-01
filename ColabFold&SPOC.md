@@ -174,26 +174,28 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
-    #BSUB -o /dev/null                   # Prevent email output by disabling LSF's default output
-    #BSUB -e /dev/null
+    #BSUB -oo logs/%J_%I.out
+    #BSUB -eo logs/%J_%I.err
 
+    # Move to TEST folder
+    cd TEST
     
-    # Get the list of input folders (stored beforehand)
-    INPUT_LIST="input_folders.txt"
-    FOLDER=$(sed -n "${LSB_JOBINDEX}p" "$INPUT_LIST")
-    
-    # Set output file base name
-    FASTA=$(find "$FOLDER" -maxdepth 1 -name "*.fasta" | head -n 1)
-    BASENAME=$(basename "$FASTA" .fasta)
-    
-    # Redirect output to folder-specific logs
-    exec > "$FOLDER/${BASENAME}.out" 2> "$FOLDER/${BASENAME}.err"
-    
-    # Load module
     module load localcolabfold/1.5.5
     LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
     
-    # Run prediction
-    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
+    # List all folders with FASTA files
+    folders=($(find . -mindepth 1 -maxdepth 1 -type d | sort))
+    target_folder="${folders[$((LSB_JOBINDEX - 1))]}"
+    fasta_file=$(find "$target_folder" -maxdepth 1 -name "*.fasta" | head -n 1)
+    
+    if [[ -z "$fasta_file" ]]; then
+        echo "No FASTA found in $target_folder"
+        exit 1
+    fi
+    
+    echo "Running ColabFold prediction for $fasta_file..."
+    
+    singularity exec --nv "$LOCALCOLABIMG" colabfold_batch \
+        --templates --num-recycle 3 --num-ensemble 1 --num-models 3 \
+        "$fasta_file" "$target_folder"
     ```
