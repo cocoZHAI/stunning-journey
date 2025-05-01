@@ -157,43 +157,39 @@ Example Script for a low number of tasks at once (<20):
 
 ```
 Example Script for a large number of tasks, e.g., ~2000
-    ```
+```bash
+    find TEST -maxdepth 1 -type d -not -path 'TEST' > input_folders.txt
+```
 - The script to run:
     ```bash
     #!/bin/bash
+    #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J colabfold_array[1-3]  # Replace XX with total number of folders
+    #BSUB -J "predict[1-1293]%20"
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
-    #BSUB -oo TEST/log/job_%J_%I.out
-    #BSUB -eo TEST/log/job_%J_%I.err
-    
-    # Get all folder names into an array
-    cd TEST
-    mkdir -p log
-    folders=($(ls -d */))
-    
-    # Get the folder corresponding to this array index
-    index=$((LSB_JOBINDEX - 1))
-    folder="${folders[$index]%/}"
-    
-    # Find fasta file
-    fasta=$(find "$folder" -maxdepth 1 -name "*.fasta" | head -n 1)
-    
-    # Sanity check
-    if [[ -z "$fasta" ]]; then
-        echo "No FASTA in $folder, skipping..."
-        exit 1
-    fi
-    
-    base_name=$(basename "$fasta" .fasta)
-
+     
+     
+    # Get the list of input folders (stored beforehand)
+    INPUT_LIST="input_folders.txt"
+    FOLDER=$(sed -n "${LSB_JOBINDEX}p" "$INPUT_LIST")
+     
+    # Set output file base name
+    FASTA=$(find "$FOLDER" -maxdepth 1 -name "*.fasta" | head -n 1)
+    BASENAME=$(basename "$FASTA" .fasta)
+     
+    # Redirect output to folder-specific logs
+    exec > "$FOLDER/${BASENAME}.out" 2> "$FOLDER/${BASENAME}.err"
+     
+    # Load module
     module load localcolabfold/1.5.5
-    
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+     
+    # Run prediction
     singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "$folder"
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
 
 
     ```
