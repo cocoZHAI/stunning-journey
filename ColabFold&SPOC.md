@@ -175,8 +175,6 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -n 1
     #BSUB -W 2:00
 
-    # Go to the parent folder where all the fasta folders are stored
-    cd TEST
     
     # Get the list of input folders (stored beforehand)
     INPUT_LIST="input_folders.txt"
