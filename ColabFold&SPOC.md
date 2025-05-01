@@ -48,6 +48,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     
     # Load the colabfold module
     module load localcolabfold/1.5.5
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
     
     # Define input and base output directory
     INPUT="MNK1_EIF4E.fasta"
@@ -55,25 +56,20 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     
     # Run model 1
     singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_1
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}
     ```
     - Running 3 models because that's what spoc were training on.
     
 ### The example output file
 ```bash
 protein1_protein2_folder/
-│-- model 1
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_001_alphafold2_multimer_v3_model_1_seed_000.json.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_001_alphafold2_multimer_v3_model_1_seed_000.pdb.xz
-│-- model 2
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_002_alphafold2_multimer_v3_model_2_seed_000.json.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_002_alphafold2_multimer_v3_model_2_seed_000.pdb.xz
-│-- model 3
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_003_alphafold2_multimer_v3_model_4_seed_000.json.xz
-    │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_001_alphafold2_multimer_v3_model_1_seed_000.json.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_001_alphafold2_multimer_v3_model_1_seed_000.pdb.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_002_alphafold2_multimer_v3_model_2_seed_000.json.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_002_alphafold2_multimer_v3_model_2_seed_000.pdb.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_003_alphafold2_multimer_v3_model_4_seed_000.json.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
 ```
 
 ### To reformat the files to run the SPOC (see the format below), we can type in following commands
