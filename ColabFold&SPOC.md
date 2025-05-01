@@ -48,7 +48,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     
     # Load the colabfold module
     module load localcolabfold/1.5.5
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
     
     # Define input and base output directory
     INPUT="MNK1_EIF4E.fasta"
@@ -144,7 +144,7 @@ for dir in */; do
 #BSUB -eo ${folder}/${base_name}.err
 
 module load localcolabfold/1.5.5
-LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
 
 singularity exec --nv $LOCALCOLABIMG colabfold_batch \
      --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}"
@@ -181,7 +181,7 @@ Example Script for a large number of tasks, e.g., ~2000
     cd TEST
     
     module load localcolabfold/1.5.5
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
     
     # List all folders with FASTA files
     folders=($(find . -mindepth 1 -maxdepth 1 -type d | sort))
