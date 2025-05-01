@@ -133,9 +133,6 @@ diann-linux \
 ```bash
 #!/bin/bash
 
-# Go to the diann folder
-cd \$LS_SUBCWD/diann
-
 # List of input .raw files
 FILES=(043025_MNK1_APEX_phosphoenrich/*.raw)
 
