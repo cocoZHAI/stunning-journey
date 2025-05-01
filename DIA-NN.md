@@ -85,7 +85,7 @@ diann-linux \
   --reannotate \
   --out qymp1_00254_qy_dia_8min_rpe1_3_report.parquet
 ```
-## Write all the command into a script for simplier execution
+## Write all the command into a script for simplier execution (for generating phospho-library)
 - Create a .sh file to submit the job and run the command: ```nano diann_job.sh```
 - It will open the nano text editor. You can paste the following example command into the text. This is the example for generating a spectral_library.
 ``` bash
@@ -145,11 +145,9 @@ for FILE in "${FILES[@]}"; do
   BASENAME=$(basename "$FILE" .raw)
 
   bsub -q short \
-       -n 16 \
+       -n 32 \
        -R "rusage[mem=8G] span[hosts=1]" \
        -W 4:00 \
-       -u fangyi.zhai@umassmed.edu \
-       -N \
        -o "${BASENAME}_quant.out" \
        -e "${BASENAME}_quant.err" \
        "cd \$LS_SUBCWD/diann && \
