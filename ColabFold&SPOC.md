@@ -170,6 +170,7 @@ for dir in */; do
 #BSUB -eo ${folder}/${base_name}.err
 
 module load localcolabfold/1.5.5
+LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
 
 singularity exec --nv $LOCALCOLABIMG colabfold_batch \
      --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}"
