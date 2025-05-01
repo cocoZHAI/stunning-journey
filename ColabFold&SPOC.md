@@ -140,7 +140,6 @@ my_afm_predictions_folder/
 ---
 # Run Batch files for colabfold and SPOC
 ## Colabfold
-## SPOC
 Example Script:
 ```bash
 #!/bin/bash
@@ -192,6 +191,35 @@ EOF
 
     # Submit the job
     bsub < "$job_script"
+done
+
+```
+## Make prediction_folder for each pair
+```bash
+#!/bin/bash
+
+# Go to the parent folder with all folders contain .pdb and .json file
+cd colabfold
+
+# Loop over each subdirectory
+for dir in */; do
+    folder_name="${dir%/}"
+    prediction_dir="${folder_name}_predictions"
+
+    # Create prediction output directory
+    mkdir -p "$prediction_dir"
+
+    # Copy the first .a3m file, if exists
+    a3m_file=$(find "$dir" -type f -name '*.a3m' | head -n 1)
+    if [[ -n "$a3m_file" ]]; then
+        cp "$a3m_file" "$prediction_dir/"
+    fi
+
+    # Copy specific .json and .pdb files
+    find "$dir" -type f \( \
+        -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json' -o \
+        -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb' \
+    \) -exec cp {} "$prediction_dir/" \;
 done
 
 ```
