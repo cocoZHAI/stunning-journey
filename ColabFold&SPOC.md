@@ -176,12 +176,22 @@ Example Script for a large number of tasks, e.g., ~2000
     
     # Ensure the log directory exists
     mkdir -p "$LOG_DIR"
-
+    
     module load localcolabfold/1.5.5
     
     # Generate sorted list of only input folders that contain a FASTA file
-    folders=($(find "$TEST_DIR" -mindepth 1 -maxdepth 1 -type d -exec test -e '{}/'*.fasta \; -print | sort))
+    folders=($(find "$TEST_DIR" -mindepth 1 -maxdepth 1 -type d -exec find {} -maxdepth 1 -name "*.fasta" \; -print | sort))
+    
+    # Print the folders being processed
+    echo "Valid folders: ${folders[@]}"
+    
     target_folder="${folders[$((LSB_JOBINDEX - 1))]}"
+    
+    # Check if target folder is valid
+    if [[ -z "$target_folder" ]]; then
+        echo "No valid target folder found for job index $LSB_JOBINDEX"
+        exit 1
+    fi
     
     fasta_file=$(find "$target_folder" -maxdepth 1 -name "*.fasta" | head -n 1)
     
@@ -195,5 +205,6 @@ Example Script for a large number of tasks, e.g., ~2000
     singularity exec --nv "$LOCALCOLABIMG" colabfold_batch \
         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 \
         "$fasta_file" "$target_folder"
+
 
     ```
