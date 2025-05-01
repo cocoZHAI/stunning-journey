@@ -199,7 +199,7 @@ done
 #!/bin/bash
 
 # Go to the parent folder with all folders contain .pdb and .json file
-cd colabfold
+cd TEST
 
 # Loop over each subdirectory
 for dir in */; do
