@@ -133,36 +133,35 @@ diann-linux \
 ```bash
 #!/bin/bash
 
+# Go to the diann folder
+cd \$LS_SUBCWD/diann
+
 # List of input .raw files
-FILES=(
-  "CZ_Negative1_Apexenrich_dia.raw"
-  "CZ_Negative2_Apexenrich_dia.raw"
-  "CZ_Sample1_Apexenrich_dia.raw"
-  "CZ_Sample2_Apexenrich_dia.raw"
-)
+FILES=(043025_MNK1_APEX_phosphoenrich/*.raw)
 
 for FILE in "${FILES[@]}"; do
   BASENAME=$(basename "$FILE" .raw)
 
   bsub -q short \
+       -J "${BASENAME}_diann" \
        -n 32 \
        -R "rusage[mem=8G] span[hosts=1]" \
        -W 4:00 \
-       -o "${BASENAME}_quant.out" \
-       -e "${BASENAME}_quant.err" \
-       "cd \$LS_SUBCWD/diann && \
-        module load diann/2.1.0 && \
+       -o "043025_MNK1_APEX_phosphoenrich/${BASENAME}_quant.out" \
+       -e "043025_MNK1_APEX_phosphoenrich/${BASENAME}_quant.err" \
+       "module load diann/2.1.0 && \
         singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
           --verbose 4 \
-          --threads 16 \
-          --f \$LS_SUBCWD/diann/${FILE} \
+          --threads 32 \
+          --f 043025_MNK1_APEX_phosphoenrich/${BASENAME}.raw \
           --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
           --lib uniprot_predicted.predicted.speclib \
           --peptidoforms \
           --export-quant \
           --reannotate \
-          --out ${BASENAME}_report.parquet"
+          --out 043025_MNK1_APEX_phosphoenrich/${BASENAME}_report.parquet"
 done
+
 
 ```
 # Troubleshooting
