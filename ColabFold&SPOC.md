@@ -170,12 +170,12 @@ Example Script for a large number of tasks, e.g., ~2000
     #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J "predict[1-1293]"
+    #BSUB -J "predict[1-3]"
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
-    #BSUB -oo logs/%J_%I.out
-    #BSUB -eo logs/%J_%I.err
+    #BSUB -oo TEST/logs/%J_%I.out
+    #BSUB -eo TEST/logs/%J_%I.err
 
     # Move to TEST folder
     cd TEST
