@@ -152,7 +152,7 @@ for FILE in "${FILES[@]}"; do
           --threads 32 \
           --f ${BASENAME}.raw \
           --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-          --lib ../uniprot_predicted.predicted.speclib \
+          --lib ../spectral_library_general/uniprot_predicted.predicted.speclib \
           --peptidoforms \
           --export-quant \
           --reannotate \
