@@ -166,7 +166,7 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
     #BSUB -J "predict[1-1293]%20"
-    #BSUB -gpu "num=1"
+    #BSUB -gpu "num=1:mode=exclusive_process:j_exclusive=yes"
     #BSUB -n 1
     #BSUB -W 2:00
      
