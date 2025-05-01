@@ -181,7 +181,6 @@ Example Script for a large number of tasks, e.g., ~2000
     cd TEST
     
     module load localcolabfold/1.5.5
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
     
     # List all folders with FASTA files
     folders=($(find . -mindepth 1 -maxdepth 1 -type d | sort))
