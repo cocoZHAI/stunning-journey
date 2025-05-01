@@ -163,7 +163,6 @@ Example Script for a large number of tasks, e.g., ~2000
 - The script to run:
     ```bash
     #!/bin/bash
-    #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
     #BSUB -J "predict[1-1293]%20"
