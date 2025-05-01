@@ -194,5 +194,4 @@ Example Script for a large number of tasks, e.g., ~2000
     # Run prediction
     singularity exec --nv $LOCALCOLABIMG colabfold_batch \
          --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
-
-```
+    ```
