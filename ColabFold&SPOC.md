@@ -170,7 +170,7 @@ Example Script for a large number of tasks, e.g., ~2000
     #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J "predict[1-2000]%20"
+    #BSUB -J "predict[1-1293]%20"
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
