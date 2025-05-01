@@ -129,7 +129,44 @@ diann-linux \
      --peptidoforms \
      --out-lib uniprot_phos.speclib
 ```
+## If you want to run multiple files in parellel
+```bash
+#!/bin/bash
 
+# List of input .raw files
+FILES=(
+  "CZ_Negative1_Apexenrich_dia.raw"
+  "CZ_Negative2_Apexenrich_dia.raw"
+  "CZ_Sample1_Apexenrich_dia.raw"
+  "CZ_Sample2_Apexenrich_dia.raw"
+)
+
+for FILE in "${FILES[@]}"; do
+  BASENAME=$(basename "$FILE" .raw)
+
+  bsub -q short \
+       -n 16 \
+       -R "rusage[mem=8G] span[hosts=1]" \
+       -W 4:00 \
+       -u fangyi.zhai@umassmed.edu \
+       -N \
+       -o "${BASENAME}_quant.out" \
+       -e "${BASENAME}_quant.err" \
+       "cd \$LS_SUBCWD/diann && \
+        module load diann/2.1.0 && \
+        singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
+          --verbose 4 \
+          --threads 16 \
+          --f \$LS_SUBCWD/diann/${FILE} \
+          --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+          --lib uniprot_predicted.predicted.speclib \
+          --peptidoforms \
+          --export-quant \
+          --reannotate \
+          --out ${BASENAME}_report.parquet"
+done
+
+```
 # Troubleshooting
 ## How to find files in the Singularity named diann and find the executive line
 - (Optional) Look for the all files in the Singularity named diann:
