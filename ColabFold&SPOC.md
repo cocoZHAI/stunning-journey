@@ -108,52 +108,52 @@ python3 run.py my_afm_predictions_folder
 ## Colabfold
 Example Script for a low number of tasks at once (<20):
 ```bash
-#!/bin/bash
-# Go to the folder that contains all the folders for fasta file
-cd TEST
-
-# Loop through each folder containing the FASTA file
-for dir in */; do
-    # Remove trailing slash to get folder name
-    folder=${dir%/}
-
-    # Find the fasta file inside the folder
-    fasta=$(find "$folder" -maxdepth 1 -name "*.fasta" | head -n 1)
-
-    # Skip if no fasta file found
-    if [[ -z "$fasta" ]]; then
-        echo "No FASTA in $folder, skipping..."
-        continue
-    fi
-
-    # Set job and output file base names based on folder
-    base_name=$(basename "$fasta" .fasta)
-
-    # Generate a temporary job script
-    job_script="${folder}/run_colabfold.bsub"
-
-    cat > "$job_script" <<EOF
-#!/bin/bash
-#BSUB -q gpu
-#BSUB -R "rusage[mem=20G]"
-#BSUB -J ${base_name}_models
-#BSUB -gpu "num=1"
-#BSUB -n 1
-#BSUB -W 2:00
-#BSUB -oo ${folder}/${base_name}.out
-#BSUB -eo ${folder}/${base_name}.err
-
-module load localcolabfold/1.5.5
-LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
-
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-     --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}"
-
-EOF
-
-    # Submit the job
-    bsub < "$job_script"
-done
+    #!/bin/bash
+    # Go to the folder that contains all the folders for fasta file
+    cd TEST
+    
+    # Loop through each folder containing the FASTA file
+    for dir in */; do
+        # Remove trailing slash to get folder name
+        folder=${dir%/}
+    
+        # Find the fasta file inside the folder
+        fasta=$(find "$folder" -maxdepth 1 -name "*.fasta" | head -n 1)
+    
+        # Skip if no fasta file found
+        if [[ -z "$fasta" ]]; then
+            echo "No FASTA in $folder, skipping..."
+            continue
+        fi
+    
+        # Set job and output file base names based on folder
+        base_name=$(basename "$fasta" .fasta)
+    
+        # Generate a temporary job script
+        job_script="${folder}/run_colabfold.bsub"
+    
+        cat > "$job_script" <<EOF
+    #!/bin/bash
+    #BSUB -q gpu
+    #BSUB -R "rusage[mem=20G]"
+    #BSUB -J ${base_name}_models
+    #BSUB -gpu "num=1"
+    #BSUB -n 1
+    #BSUB -W 2:00
+    #BSUB -oo ${folder}/${base_name}.out
+    #BSUB -eo ${folder}/${base_name}.err
+    
+    module load localcolabfold/1.5.5
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
+    
+    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}"
+    
+    EOF
+    
+        # Submit the job
+        bsub < "$job_script"
+    done
 
 ```
 Example Script for a large number of tasks, e.g., ~2000
