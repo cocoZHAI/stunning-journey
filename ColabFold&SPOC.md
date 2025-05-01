@@ -54,16 +54,8 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     BASE_OUT="MNK1_EIF4E"
     
     # Run model 1
-    singularity exec --nv $LOCALCOLABIMG \
-        colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 1 $INPUT ${BASE_OUT}/model_1
-    
-    # Run model 2
-    singularity exec --nv $LOCALCOLABIMG \
-        colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 2 $INPUT ${BASE_OUT}/model_2
-    
-    # Run model 3
-    singularity exec --nv $LOCALCOLABIMG \
-        colabfold_batch --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_3
+    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}/model_1
     ```
     - Running 3 models because that's what spoc were training on.
     
@@ -174,13 +166,14 @@ for dir in */; do
 #BSUB -gpu "num=1"
 #BSUB -n 1
 #BSUB -W 2:00
-#BSUB -oo ${folder}/${base_name}_1_2_4.out
-#BSUB -eo ${folder}/${base_name}_1_2_4.err
+#BSUB -oo ${folder}/${base_name}.out
+#BSUB -eo ${folder}/${base_name}.err
 
 module load localcolabfold/1.5.5
 
 singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-     --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}/model_1"
+     --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}"
+
 EOF
 
     # Submit the job
