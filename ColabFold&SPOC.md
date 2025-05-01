@@ -106,7 +106,7 @@ python3 run.py my_afm_predictions_folder
 ---
 # Run Batch files for colabfold and SPOC
 ## Colabfold
-Example Script:
+Example Script for a low number of tasks at once (<20):
 ```bash
 #!/bin/bash
 # Go to the folder that contains all the folders for fasta file
@@ -156,4 +156,45 @@ EOF
 done
 
 ```
+Example Script for a large number of tasks, e.g., ~2000
+- Find the number of folders within a parent folder
+    ```bash
+    find TEST -mindepth 1 -maxdepth 1 -type d | wc -l
+    ```
+- This file maps job index to input folder. You can generate it with:
+    ```bash
+    find TEST -mindepth 1 -maxdepth 1 -type d > input_folders.txt
+    ```
+- The script to run:
+    ```bash
+    #!/bin/bash
+    #BSUB -q gpu
+    #BSUB -R "rusage[mem=20G]"
+    #BSUB -J "predict[1-2000]%20"
+    #BSUB -gpu "num=1"
+    #BSUB -n 1
+    #BSUB -W 2:00
 
+    # Go to the parent folder where all the fasta folders are stored
+    cd TEST
+    
+    # Get the list of input folders (stored beforehand)
+    INPUT_LIST="input_folders.txt"
+    FOLDER=$(sed -n "${LSB_JOBINDEX}p" "$INPUT_LIST")
+    
+    # Set output file base name
+    FASTA=$(find "$FOLDER" -maxdepth 1 -name "*.fasta" | head -n 1)
+    BASENAME=$(basename "$FASTA" .fasta)
+    
+    # Redirect output to folder-specific logs
+    exec > "$FOLDER/${BASENAME}.out" 2> "$FOLDER/${BASENAME}.err"
+    
+    # Load module
+    module load localcolabfold/1.5.5
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+    
+    # Run prediction
+    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
+
+```
