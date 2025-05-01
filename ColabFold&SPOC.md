@@ -163,7 +163,7 @@ Example Script for a large number of tasks, e.g., ~2000
     #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J colabfold_array[1-XX]  # Replace XX with total number of folders
+    #BSUB -J colabfold_array[1-3]  # Replace XX with total number of folders
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
