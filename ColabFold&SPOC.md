@@ -59,32 +59,6 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
          --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}
     ```
     - Running 3 models because that's what spoc were training on.
-    
-### The example output file
-```bash
-protein1_protein2_folder/
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_001_alphafold2_multimer_v3_model_1_seed_000.json.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_001_alphafold2_multimer_v3_model_1_seed_000.pdb.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_002_alphafold2_multimer_v3_model_2_seed_000.json.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_002_alphafold2_multimer_v3_model_2_seed_000.pdb.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_003_alphafold2_multimer_v3_model_4_seed_000.json.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
-```
-
-### To reformat the files to run the SPOC (see the format below), we can type in following commands
-- Make a new directory
-```bash
-mkdir -p my_afm_predictions_folder
-```
-- Copy one a3m.xz file (just from the first model folder)
-```bash
-find . -type f -name '*.a3m' | head -n 1 | xargs -I {} cp {} my_afm_predictions_folder/
-```
-- Copy all .json and .pdb files with the naming pattern you described
-```bash
-find . -type f \( -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json' -o -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb' \) -exec cp {} my_afm_predictions_folder/ \;
-```
 ---
 # RUN SPOC
 ## What is SPOC and why we use it?
@@ -178,32 +152,4 @@ EOF
 done
 
 ```
-## Make prediction_folder for each pair
-```bash
-#!/bin/bash
 
-# Go to the parent folder with all folders contain .pdb and .json file
-cd TEST
-
-# Loop over each subdirectory
-for dir in */; do
-    folder_name="${dir%/}"
-    prediction_dir="${folder_name}_predictions"
-
-    # Create prediction output directory
-    mkdir -p "$prediction_dir"
-
-    # Copy the first .a3m file, if exists
-    a3m_file=$(find "$dir" -type f -name '*.a3m' | head -n 1)
-    if [[ -n "$a3m_file" ]]; then
-        cp "$a3m_file" "$prediction_dir/"
-    fi
-
-    # Copy specific .json and .pdb files
-    find "$dir" -type f \( \
-        -name '*scores_rank_*_alphafold2_multimer_v3_model_*_seed_000.json' -o \
-        -name '*unrelaxed_rank_*_alphafold2_multimer_v3_model_*_seed_000.pdb' \
-    \) -exec cp {} "$prediction_dir/" \;
-done
-
-```
