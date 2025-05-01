@@ -172,7 +172,7 @@ Example Script for a large number of tasks, e.g., ~2000
     
     # Get all folder names into an array
     cd TEST
-    mkdr -p log
+    mkdir -p log
     folders=($(ls -d */))
     
     # Get the folder corresponding to this array index
