@@ -128,10 +128,10 @@ my_afm_predictions_folder/
 │-- DONS_HUMAN__MCM3_HUMAN__1374aa.a3m.xz
 │-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_001_alphafold2_multimer_v3_model_1_seed_000.json.xz
 │-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_002_alphafold2_multimer_v3_model_2_seed_000.json.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_003_alphafold2_multimer_v3_model_4_seed_000.json.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_scores_rank_003_alphafold2_multimer_v3_model_3_seed_000.json.xz
 │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_001_alphafold2_multimer_v3_model_1_seed_000.pdb.xz
 │-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_002_alphafold2_multimer_v3_model_2_seed_000.pdb.xz
-│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_4_seed_000.pdb.xz
+│-- DONS_HUMAN__MCM3_HUMAN__1374aa_unrelaxed_rank_003_alphafold2_multimer_v3_model_3_seed_000.pdb.xz
 
 ```
 - contains a file with .a3m (which is same for all the model)
@@ -180,13 +180,7 @@ for dir in */; do
 module load localcolabfold/1.5.5
 
 singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-     --templates --num-recycle 3 --num-ensemble 1 --num-models 1 "$fasta" "${folder}/model_1"
-
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-     --templates --num-recycle 3 --num-ensemble 1 --num-models 2 "$fasta" "${folder}/model_2"
-
-singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-     --templates --num-recycle 3 --num-ensemble 1 --num-models 4 "$fasta" "${folder}/model_4"
+     --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "${folder}/model_1"
 EOF
 
     # Submit the job
