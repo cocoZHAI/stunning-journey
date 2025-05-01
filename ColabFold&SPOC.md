@@ -170,10 +170,6 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -oo TEST/log/job_%J_%I.out
     #BSUB -eo TEST/log/job_%J_%I.err
     
-    module load localcolabfold/1.5.5
-    
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
-    
     # Get all folder names into an array
     cd TEST
     folders=($(ls -d */))
@@ -192,6 +188,8 @@ Example Script for a large number of tasks, e.g., ~2000
     fi
     
     base_name=$(basename "$fasta" .fasta)
+
+    module load localcolabfold/1.5.5
     
     singularity exec --nv $LOCALCOLABIMG colabfold_batch \
          --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$fasta" "$folder"
