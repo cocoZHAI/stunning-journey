@@ -134,7 +134,7 @@ diann-linux \
 #!/bin/bash
 
 # List of input .raw files
-FILES=(043025_MNK1_APEX_phosphoenrich/*.raw)
+FILES=(*.raw)
 
 for FILE in "${FILES[@]}"; do
   BASENAME=$(basename "$FILE" .raw)
@@ -144,19 +144,19 @@ for FILE in "${FILES[@]}"; do
        -n 32 \
        -R "rusage[mem=8G] span[hosts=1]" \
        -W 4:00 \
-       -o "043025_MNK1_APEX_phosphoenrich/${BASENAME}_quant.out" \
-       -e "043025_MNK1_APEX_phosphoenrich/${BASENAME}_quant.err" \
+       -o "${BASENAME}_quant.out" \
+       -e "${BASENAME}_quant.err" \
        "module load diann/2.1.0 && \
         singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
           --verbose 4 \
           --threads 32 \
-          --f 043025_MNK1_APEX_phosphoenrich/${BASENAME}.raw \
-          --fasta uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-          --lib uniprot_predicted.predicted.speclib \
+          --f ${BASENAME}.raw \
+          --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+          --lib ../uniprot_predicted.predicted.speclib \
           --peptidoforms \
           --export-quant \
           --reannotate \
-          --out 043025_MNK1_APEX_phosphoenrich/${BASENAME}_report.parquet"
+          --out ${BASENAME}_report.parquet"
 done
 
 
