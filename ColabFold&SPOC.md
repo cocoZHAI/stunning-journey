@@ -174,6 +174,8 @@ Example Script for a large number of tasks, e.g., ~2000
     #BSUB -gpu "num=1"
     #BSUB -n 1
     #BSUB -W 2:00
+    #BSUB -o /dev/null                   # Prevent email output by disabling LSF's default output
+    #BSUB -e /dev/null
 
     
     # Get the list of input folders (stored beforehand)
