@@ -106,11 +106,11 @@ python3 run.py my_afm_predictions_folder
 ---
 # Run Batch files for colabfold and SPOC
 ## Colabfold
-Example Script for a low number of tasks at once (<20):
+### Example Script for a low number of tasks at once (<20):
 ```bash
     #!/bin/bash
     # Go to the folder that contains all the folders for fasta file
-    cd TEST
+    cd All_multimer
     
     # Loop through each folder containing the FASTA file
     for dir in */; do
@@ -156,39 +156,83 @@ Example Script for a low number of tasks at once (<20):
     done
 
 ```
-Example Script for a large number of tasks, e.g., ~2000
-```bash
-    find TEST -maxdepth 1 -type d -not -path 'TEST' > input_folders.txt
-```
-- The script to run:
+### Example Script for a large number of tasks, e.g., ~2000
+- Step 1: Make sure you have the run_wrapper.py in the same directory as the run.py
+
+  Create a new sh file within the SPOC folder: ```nano run_wrapper.py```
+
+  Copy and paste the following script into the file:
+
+    ```bash
+        # run_wrapper.py
+    import os
+    import sys
+    import glob
+    import subprocess
+    import tempfile
+    import re
+    def run_prediction(input_folder):
+        input_folder = os.path.abspath(input_folder)
+        folder_name = os.path.basename(input_folder)
+        # Match only top-level files
+        a3m_files = glob.glob(os.path.join(input_folder, '*.a3m'))
+        json_files = sorted(glob.glob(os.path.join(input_folder, '*_scores_rank_*_model_*_seed_000.json')))
+        pdb_files = sorted(glob.glob(os.path.join(input_folder, '*_unrelaxed_rank_*_model_*_seed_000.pdb')))
+        all_files = a3m_files + json_files + pdb_files
+    
+        if not all_files:
+            print(f"[{input_folder}] No valid input files found.")
+            return
+    
+        # Temporary clean directory with only relevant files
+        with tempfile.TemporaryDirectory() as tmpdir:
+            for file_path in all_files:
+                link_path = os.path.join(tmpdir, os.path.basename(file_path))
+                os.symlink(os.path.abspath(file_path), link_path)
+    
+            print(f"[{input_folder}] Running prediction...")
+            output_file = f"{folder_name}_SPOC_output.csv"
+            subprocess.run(["python3", "run.py", tmpdir,"--output",output_file], cwd=os.path.dirname(__file__), check=True)
+    
+    if __name__ == "__main__":
+        if len(sys.argv) < 2:
+            print("Usage: python run_wrapper.py <folder1> [<folder2> ...]")
+            sys.exit(1)
+    
+        for folder in sys.argv[1:]:
+            run_prediction(folder)
+    ```
+- Step 2: In the same directory of your All_Multimer folder, get all the names of the fasta files into the input_folders.txt
+    ```bash
+        find All_multimer -maxdepth 1 -type d -not -path 'All_multimer' > input_folders.txt
+    ```
+
+- Step 3: Create a file at the same directory as the input_folders.txt:```nano run_prediction.sh```
+
+    Copy and paste into the file (be sure to change the directory in the script!):
     ```bash
     #!/bin/bash
-    #BSUB -q gpu
-    #BSUB -R "rusage[mem=20G]"
-    #BSUB -J "predict[1-3]"
-    #BSUB -gpu "num=1:mode=exclusive_process:j_exclusive=yes"
-    #BSUB -n 1
-    #BSUB -W 2:00
-     
-     
-    # Get the list of input folders (stored beforehand)
-    INPUT_LIST="input_folders.txt"
-    FOLDER=$(sed -n "${LSB_JOBINDEX}p" "$INPUT_LIST")
-     
-    # Set output file base name
-    FASTA=$(find "$FOLDER" -maxdepth 1 -name "*.fasta" | head -n 1)
-    BASENAME=$(basename "$FASTA" .fasta)
-     
-    # Redirect output to folder-specific logs
-    exec > "$FOLDER/${BASENAME}.out" 2> "$FOLDER/${BASENAME}.err"
-     
-    # Load module
-    module load localcolabfold/1.5.5
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
-     
-    # Run prediction
-    singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
-
-
+    #BSUB -q large
+    #BSUB -n 40
+    #BSUB -J spoc_predict
+    #BSUB -W 96:00
+    #BSUB -oo spoc_predict.out
+    #BSUB -eo spoc_predict.err
+    
+    # Setup micromamba
+    eval "$(micromamba shell hook --shell=bash)"
+    micromamba activate spoc_venv
+    
+    # Define the path to run_wrapper.py
+    RUN_WRAPPER_PATH="/home/fangyi.zhai-umw/colabfold/SPOC/run_wrapper.py"
+    
+    # Go to the directory that contains all the predictions
+    cd /home/fangyi.zhai-umw/colabfold/All_MNK1
+    
+    for folder in */; do
+        folder=${folder%/}
+        echo "Running on $folder"
+        python3 "$RUN_WRAPPER_PATH" "$folder"
+    done
     ```
+    Now you have a list of SPOC predictions within the same directory as the run.py (which is your SPOC folder)
