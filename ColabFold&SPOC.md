@@ -34,33 +34,41 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 ### Copy and paste the following script in:
 
+    This code will submit the the same number of jobs to gpu as to the number of predictions you want to make. You can find the colabfold ouput in the same folder as the fasta sequence file. 
+    
     Example script:
     ```bash
     #!/bin/bash
     #BSUB -q gpu
     #BSUB -R "rusage[mem=20G]"
-    #BSUB -J colabfold_models_1_2_3
-    #BSUB -gpu "num=1"
+    #BSUB -J "predict[1-1293]"
+    #BSUB -gpu "num=1:mode=exclusive_process:j_exclusive=yes"
     #BSUB -n 1
     #BSUB -W 2:00
-    #BSUB -oo MNK1_EIF4E/MNK1_EIF4E_1_2_3.out
-    #BSUB -eo MNK1_EIF4E/MNK1_EIF4E_1_2_3.err
-    
-    # Load the colabfold module
+     
+     
+    # Get the list of input folders (stored beforehand)
+    INPUT_LIST="input_folders.txt"
+    FOLDER=$(sed -n "${LSB_JOBINDEX}p" "$INPUT_LIST")
+     
+    # Set output file base name
+    FASTA=$(find "$FOLDER" -maxdepth 1 -name "*.fasta" | head -n 1)
+    BASENAME=$(basename "$FASTA" .fasta)
+     
+    # Redirect output to folder-specific logs
+    exec > "$FOLDER/${BASENAME}.out" 2> "$FOLDER/${BASENAME}.err"
+     
+    # Load module
     module load localcolabfold/1.5.5
-    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold-1.5.5.sif
-    
-    # Define input and base output directory
-    INPUT="MNK1_EIF4E.fasta"
-    BASE_OUT="MNK1_EIF4E"
-    
-    # Run model 1
+    LOCALCOLABIMG=/share/pkg/containers/localcolabfold/localcolabfold_1.5.5.sif
+     
+    # Run prediction
     singularity exec --nv $LOCALCOLABIMG colabfold_batch \
-         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 $INPUT ${BASE_OUT}
+         --templates --num-recycle 3 --num-ensemble 1 --num-models 3 "$FASTA" "$FOLDER"
     ```
     - Running 3 models because that's what spoc were training on.
 ---
-# RUN SPOC
+# SPOC Set-up
 ## What is SPOC and why we use it?
 
 ### Clone the SPOC repository
@@ -163,8 +171,9 @@ python3 run.py my_afm_predictions_folder
 
   Copy and paste the following script into the file:
 
+  This code will create a temporary directory to only take the a3m, .json, and .pdb files from the colabfold output and runs run.py on thie temporary directory
     ```bash
-        # run_wrapper.py
+    # run_wrapper.py
     import os
     import sys
     import glob
