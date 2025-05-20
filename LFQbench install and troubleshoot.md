@@ -1,5 +1,30 @@
+# LFQbench install in R
 
-#  R Package Compilation Troubleshooting on macOS ARM64 (M1/M2)
+The orginial repository can be found: https://github.com/IFIproteomics/LFQbench
+
+## Install the devtool
+```bash install.packages("devtools")
+```
+
+```bash library(devtools)
+```
+
+## Call LFQbench
+
+```bash install_github("IFIproteomics/LFQbench")
+```
+
+```bash library(LFQbench)
+```
+
+## See examples on how to use LFQbench, use this:
+
+```bash vignette("LFQbench")
+```
+
+---
+
+#  Troubleshooting
 
 This guide documents the journey of troubleshooting and resolving R package installation and compilation issues on a macOS ARM64 system (like M1 or M2 chips).
 
