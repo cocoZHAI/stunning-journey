@@ -31,7 +31,11 @@ vignette("LFQbench")
 
 #  Troubleshooting
 
-This guide documents the journey of troubleshooting and resolving R package installation and compilation issues on a macOS ARM64 system (like M1 or M2 chips).
+This guide documents the journey of troubleshooting and resolving R package installation and compilation issues on a macOS ARM64 system (like M1 or M2 chips). It requires the Mac users install homebrew for easier package installation and compilation. If you don't have homebrew yet, install in terminal:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
 ---
 
