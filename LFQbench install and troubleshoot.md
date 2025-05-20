@@ -1,11 +1,11 @@
 
-# 🧪 R Package Compilation Troubleshooting on macOS ARM64 (M1/M2)
+#  R Package Compilation Troubleshooting on macOS ARM64 (M1/M2)
 
 This guide documents the journey of troubleshooting and resolving R package installation and compilation issues on a macOS ARM64 system (like M1 or M2 chips).
 
 ---
 
-## 🔍 Summary of Issues Encountered
+##  Summary of Issues Encountered
 
 ### 1. `devtools` Failed Due to Missing `usethis`
 
@@ -103,7 +103,7 @@ FLIBS = -L/opt/homebrew/Cellar/gcc/13.2.0/lib/gcc/13 -lgfortran -lquadmath -lm
 
 ---
 
-## ✅ Final `~/.R/Makevars` Example
+##  Final `~/.R/Makevars` Example
 
 ```make
 FC = /opt/homebrew/bin/gfortran
@@ -113,7 +113,7 @@ FLIBS = -L/opt/homebrew/Cellar/gcc/13.2.0/lib/gcc/13 -lgfortran -lquadmath -lm
 
 ---
 
-## 💡 Lessons Learned
+##  Lessons Learned
 
 - macOS ARM64 requires **manual configuration** for R compilation.
 - Always install **Xcode Command Line Tools** and **Homebrew GCC**.
