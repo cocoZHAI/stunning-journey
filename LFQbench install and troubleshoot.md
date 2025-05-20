@@ -159,9 +159,7 @@ FLIBS = -L/opt/homebrew/Cellar/gcc/13.2.0/lib/gcc/13 -lgfortran -lquadmath -lm
 
 (Replace the version with your actual installed version)
 
----
-
-##  Final `~/.R/Makevars` Example
+###  Final `~/.R/Makevars` Example
 
 ```make
 FC = /opt/homebrew/bin/gfortran
