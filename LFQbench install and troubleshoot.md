@@ -3,23 +3,28 @@
 The orginial repository can be found: https://github.com/IFIproteomics/LFQbench
 
 ## Install the devtool
-```bash install.packages("devtools")
+```bash
+install.packages("devtools")
 ```
 
-```bash library(devtools)
+```bash
+library(devtools)
 ```
 
 ## Call LFQbench
 
-```bash install_github("IFIproteomics/LFQbench")
+```bash
+install_github("IFIproteomics/LFQbench")
 ```
 
-```bash library(LFQbench)
+```bash
+library(LFQbench)
 ```
 
 ## See examples on how to use LFQbench, use this:
 
-```bash vignette("LFQbench")
+```bash
+vignette("LFQbench")
 ```
 
 ---
