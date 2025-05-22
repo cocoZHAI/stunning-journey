@@ -220,12 +220,7 @@ python3 run.py my_afm_predictions_folder
         for folder in sys.argv[1:]:
             run_prediction(folder)
     ```
-- Step 2: In the same directory of your All_Multimer folder, get all the names of the fasta files into the input_folders.txt
-    ```bash
-    find All_multimer -maxdepth 1 -type d -not -path 'All_multimer' > input_folders.txt
-    ```
-
-- Step 3: Create a file at the same directory as the input_folders.txt:```nano run_prediction.sh```
+- Step 2: Create a file at the same directory as the input_folders.txt:```nano run_prediction.sh```
 
     Copy and paste into the file (be sure to change the directory in the script!):
     ```bash
