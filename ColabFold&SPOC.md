@@ -37,6 +37,7 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
     This code will submit the the same number of jobs to gpu as to the number of predictions you want to make. You can find the colabfold ouput in the same folder as the fasta sequence file. 
     
     Example script:
+    
     ```bash
     #!/bin/bash
     #BSUB -q gpu
