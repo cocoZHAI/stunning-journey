@@ -32,11 +32,11 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 ### Create .sh file: ``` nano protein1_protein2.sh ```
 
-### Copy and paste the following script in:
+### Copy and paste the following script in
 
-    This code will submit the the same number of jobs to gpu as to the number of predictions you want to make. You can find the colabfold ouput in the same folder as the fasta sequence file. 
+This code will submit the the same number of jobs to gpu as to the number of predictions you want to make. You can find the colabfold ouput in the same folder as the fasta sequence file. 
     
-    Example script:
+Example script:
     
     ```bash
     #!/bin/bash
