@@ -36,7 +36,15 @@ Local ColabFold is essentially the same software as ColabFold, but it's installe
 
 This code will submit the the same number of jobs to gpu as to the number of predictions you want to make. You can find the colabfold ouput in the same folder as the fasta sequence file. 
     
-Example script:
+- Step 1: fetch all the fasta sequences for each multimers
+
+- Step 2: store all the names of within the All_multimer folder in input_folder.txt
+
+  ```bash
+  find All_multimer -maxdepth 1 -type d -not -path 'All_multimer' > input_folders.txt
+  ```
+
+- Step 3: run colabfold on each multimer
     
     ```bash
     #!/bin/bash
