@@ -136,29 +136,31 @@ diann-linux \
 # List of input .raw files
 FILES=(*.raw)
 
+# Build the --f flags for all files
+FILE_FLAGS=""
 for FILE in "${FILES[@]}"; do
-  BASENAME=$(basename "$FILE" .raw)
-
-  bsub -q short \
-       -J "${BASENAME}_diann" \
-       -n 32 \
-       -R "rusage[mem=8G] span[hosts=1]" \
-       -W 4:00 \
-       -o "${BASENAME}_quant.out" \
-       -e "${BASENAME}_quant.err" \
-       "module load diann/2.1.0 && \
-        singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
-          --verbose 4 \
-          --threads 32 \
-          --f ${BASENAME}.raw \
-          --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-          --lib ../spectral_library_general/uniprot_predicted.predicted.speclib \
-          --peptidoforms \
-          --export-quant \
-          --reannotate \
-          --out ${BASENAME}_report.parquet"
+  FILE_FLAGS+="--f ${FILE} "
 done
 
+# Submit a single job for all files
+bsub -q short \
+     -J "combined_diann" \
+     -n 32 \
+     -R "rusage[mem=8G] span[hosts=1]" \
+     -W 4:00 \
+     -o "combined_quant.out" \
+     -e "combined_quant.err" \
+     "module load diann/2.1.0 && \
+      singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
+        --verbose 4 \
+        --threads 32 \
+        $FILE_FLAGS \
+        --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
+        --lib ../spectral_library_general/uniprot_predicted.predicted.speclib \
+        --peptidoforms \
+        --export-quant \
+        --reannotate \
+        --out combined_report.parquet"
 
 ```
 # Troubleshooting
