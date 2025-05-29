@@ -144,7 +144,7 @@ done
 
 # Submit a single job for all files
 bsub -q short \
-     -J "combined_diann" \
+     -J "diann" \
      -n 32 \
      -R "rusage[mem=8G] span[hosts=1]" \
      -W 4:00 \
@@ -160,7 +160,8 @@ bsub -q short \
         --peptidoforms \
         --export-quant \
         --reannotate \
-        --out combined_report.parquet"
+        --reanalyse \
+        --out report.parquet"
 
 ```
 # Troubleshooting
