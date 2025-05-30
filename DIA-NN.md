@@ -157,6 +157,9 @@ bsub -q short \
         $FILE_FLAGS \
         --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
         --lib ../spectral_library_general/uniprot_predicted.predicted.speclib \
+        --matrices \
+        --matrix-qvalue 0.01 \
+        --matrix-spec-q 0.05 \
         --peptidoforms \
         --export-quant \
         --reannotate \
