@@ -148,8 +148,8 @@ bsub -q short \
      -n 32 \
      -R "rusage[mem=8G] span[hosts=1]" \
      -W 4:00 \
-     -o "combined_quant.out" \
-     -e "combined_quant.err" \
+     -o "quant.out" \
+     -e "quant.err" \
      "module load diann/2.1.0 && \
       singularity exec \$DIANNIMG /diann-2.1.0/diann-linux \
         --verbose 4 \
