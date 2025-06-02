@@ -155,8 +155,8 @@ bsub -q short \
         --verbose 4 \
         --threads 32 \
         $FILE_FLAGS \
-        --fasta ../uniprotkb_proteome_UP000005640_2025_04_26.fasta \
-        --lib ../spectral_library_general/uniprot_predicted.predicted.speclib \
+        --fasta ../human_yeast_proteome.fasta \
+        --lib ../uniprot_human_yeast.predicted.speclib \
         --matrices \
         --matrix-qvalue 0.01 \
         --matrix-spec-q 0.05 \
