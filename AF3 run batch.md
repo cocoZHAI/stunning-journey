@@ -6,7 +6,7 @@ ls $HOME/af3_input_files/citrate_hits/*.json > $HOME/af3_input_files/citrate_hit
 
 ```
 
-- Then confirm the number of JSONs:
+- Then confirm the number of JSONs (for updating the #BSUB -J "af3_json[1-1293]" line):
 ```
 wc -l $HOME/af3_input_files/citrate_hits_list.txt
 ```
