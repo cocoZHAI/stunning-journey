@@ -11,6 +11,8 @@ ls $HOME/af3_input_files/citrate_hits/*.json > $HOME/af3_input_files/citrate_hit
 wc -l $HOME/af3_input_files/citrate_hits_list.txt
 ```
 
+- Save this as something like ```submit_af3_json_jobs.bash```
+
 ```#!/bin/bash
 #BSUB -q gpu
 #BSUB -J "af3_json[1-1293]"   # ⬅️ Update "1293" to the actual number of JSON files
