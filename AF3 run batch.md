@@ -12,33 +12,39 @@ wc -l $HOME/af3_input_files/citrate_hits_list.txt
 
 - Save this as something like ```submit_af3_json_jobs.bash```
 
-```#!/bin/bash
+```
+#!/bin/bash
 #BSUB -q gpu
-#BSUB -J "af3_json[1-1293]"   # ⬅️ Update "1293" to the actual number of JSON files
+#BSUB -J "af3_json[1-1293]"   # ⬅️ Update to match number of JSON files
 #BSUB -gpu "num=1:mode=exclusive_process:j_exclusive=yes"
 #BSUB -R "rusage[mem=52G]"
 #BSUB -n 8
 #BSUB -W 8:00
 
-# Set Alphafold3 Singularity container path
+# Path to AF3 container
 export ALPHAIMG=/share/pkg/containers/alphafold/alphafold_unified-mem-3.0.0.sif
 
-# Path to list of JSON input files (you’ll generate this list)
-JSON_LIST="$HOME/af3_input_files/json_list.txt"
+# JSON input list and folders
+JSON_LIST="$HOME/af3_input_files/citrate_hits_demo_list.txt" # ⬅️ change
+INPUT_DIR="$HOME/af3_input_files/citrate_hits_demo" # ⬅️ change
+OUTPUT_DIR="$HOME/af3_output_files/citrate_hits_demo" # ⬅️ change
 
-# Get this job’s JSON file path using its array index
+# Make sure output folder exists
+mkdir -p "$OUTPUT_DIR"
+
+# Get JSON file for this job index
 JSON_PATH=$(sed -n "${LSB_JOBINDEX}p" "$JSON_LIST")
 BASENAME=$(basename "$JSON_PATH" .json)
 
-# Redirect logs
-exec > "$HOME/af3_output_files/${BASENAME}.out" 2> "$HOME/af3_output_files/${BASENAME}.err"
+# Redirect logs to output folder
+exec > "$OUTPUT_DIR/${BASENAME}.out" 2> "$OUTPUT_DIR/${BASENAME}.err"
 
-# Run AlphaFold3 using the JSON input
+# Run AlphaFold3 prediction
 singularity exec --nv --bind \
 /home/qing.yu-umw/public_databases:/databases,\
 /home/qing.yu-umw/models:/models,\
-$HOME/af3_input_files/citrate_hits:/input,\
-$HOME/af3_output_files:/output \
+${INPUT_DIR}:/input,\
+${OUTPUT_DIR}:/output \
 ${ALPHAIMG} \
 env XLA_FLAGS="--xla_gpu_cuda_data_dir=/usr/local/cuda-12.2 --xla_disable_hlo_passes=custom-kernel-fusion-rewriter" \
 python /app/alphafold/run_alphafold.py \
@@ -47,4 +53,5 @@ python /app/alphafold/run_alphafold.py \
 --json_path="/input/$(basename "$JSON_PATH")" \
 --output_dir=/output \
 --flash_attention_implementation xla
+
 ```
