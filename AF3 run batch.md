@@ -1,4 +1,16 @@
-Batch AF3 Script
+## Batch AF3 Script
+### Prep: Generate Your JSON File List
+- Before submitting this script, run the following command once:
+```
+ls $HOME/af3_input_files/citrate_hits/*.json > $HOME/af3_input_files/citrate_hits_list.txt
+
+```
+
+- Then confirm the number of JSONs:
+```
+wc -l $HOME/af3_input_files/citrate_hits_list.txt
+```
+
 ```#!/bin/bash
 #BSUB -q gpu
 #BSUB -J "af3_json[1-1293]"   # ⬅️ Update "1293" to the actual number of JSON files
