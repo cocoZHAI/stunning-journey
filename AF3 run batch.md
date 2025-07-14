@@ -1,5 +1,15 @@
 ## Batch AF3 Script
-### Prep: Generate Your JSON File List
+### STEP 1: Generate JSON files in batch
+- Create 2 folders in the home directory named:
+  ```
+  af3_input_files
+  ```
+  af3_iutput_files is where all JSON files are stored
+  
+  ```
+  af3_output_files
+  ```
+### STEP 2: Generate Your JSON File List
 - Before submitting this script, run the following command once:
 ```
 ls $HOME/af3_input_files/citrate_hits/*.json > $HOME/af3_input_files/citrate_hits_list.txt
@@ -12,6 +22,7 @@ wc -l $HOME/af3_input_files/citrate_hits_list.txt
 
 - Save this as something like ```submit_af3_json_jobs.bash```
 
+### STEP 3: submit the job
 ```
 #!/bin/bash
 #BSUB -q gpu
