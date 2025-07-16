@@ -28,7 +28,7 @@ wc -l $HOME/af3_input_files/citrate_hits_list.txt
 #BSUB -q gpu
 #BSUB -J "af3_json[1-1293]"   # ⬅️ Update to match number of JSON files
 #BSUB -gpu "num=1:mode=exclusive_process:j_exclusive=yes"
-#BSUB -R "rusage[mem=52G]"
+#BSUB -R "rusage[mem=4G] span[hosts=1]"
 #BSUB -n 8
 #BSUB -W 8:00
 
