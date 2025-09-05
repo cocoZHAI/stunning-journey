@@ -60,7 +60,6 @@ Tutorial can be found: https://reactome.org/dev/graph-database
   ```
 
   It should return:
-  ```
   {
   "bolt_routing" : "neo4j://localhost:7687",
   "transaction" : "http://localhost:7474/db/{databaseName}/tx",
@@ -68,5 +67,4 @@ Tutorial can be found: https://reactome.org/dev/graph-database
   "neo4j_version" : "4.3.6",
   "neo4j_edition" : "enterprise"
   }
-  ```
 
