@@ -49,3 +49,24 @@ Tutorial can be found: https://reactome.org/dev/graph-database
   -e NEO4J_dbms_memory_heap_maxSize=8g \
   public.ecr.aws/reactome/graphdb:latest
   ```
+- Step 3: Access to http://localhost:7474
+
+  Recommend using chrome.
+
+  You can check the connnection to this website using:
+
+  ```bash
+  curl http://localhost:7474
+  ```
+
+  It should return:
+  ```
+  {
+  "bolt_routing" : "neo4j://localhost:7687",
+  "transaction" : "http://localhost:7474/db/{databaseName}/tx",
+  "bolt_direct" : "bolt://localhost:7687",
+  "neo4j_version" : "4.3.6",
+  "neo4j_edition" : "enterprise"
+  }
+  ```
+
