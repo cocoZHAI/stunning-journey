@@ -68,3 +68,41 @@ Tutorial can be found: https://reactome.org/dev/graph-database
   "neo4j_edition" : "enterprise"
   }
 
+# Use predicted Functional Network to map pathways for all dark kinases
+### Set-up MongoDB
+- Step 1: Install MongoDB locally
+ ```bash
+  brew tap mongodb/brew
+  brew install mongodb-community@7.0
+  brew services start mongodb/brew/mongodb-community@7.0
+  ```
+- Step 2: Restore the archive locally
+ ```bash
+  mongorestore \
+  --archive=/Users/tekihou/Downloads/reactome_idg_mongoDB_dump.tgz \
+  --nsInclude="idg_pairwise.*" \
+  --verbose
+  ```
+- Step 3: Verify the restore
+
+  ```bash
+  # Open the Mongo shell:
+  mongosh
+
+  # Switch to the restored database:
+  use idg_pairwise
+
+  # Check that the collections exist:
+  show collections
+  ```
+
+  Then you should see all of your collections from idg_pairwise:
+  relationships
+  REACTOME_ANNOTATED_GENES
+  pathways
+  datadescriptions
+  GENE_INDEX
+  PATHWAY_INDEX
+  reactome_pathways
+
+
