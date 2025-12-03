@@ -29,44 +29,31 @@ $metadata."Run" | Out-File "C:\Users\pc\Desktop\RNAseq\SRR_list.txt" -Encoding a
 ### Step 4: Create the download_fastq.ps1
 
 ```
-# PowerShell script to download SRA runs and convert to FASTQ
+$SRR_list = "C:\Users\pc\Desktop\RNAseq\SRR_list.txt"
+$OutDir = "C:\Users\pc\Desktop\RNAseq\data"
 
-# Folder to save FASTQs
-$OutDir = "C:\Users\pc\Desktop\RNAseq\FASTQ_downloads"
-New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-
-# Read SRR list
-$SRRs = Get-Content "C:\Users\pc\Desktop\RNAseq\SRR_list.txt"
-
-foreach ($SRR in $SRRs) {
-    Write-Host ""
-    Write-Host "=== Processing $SRR ==="
-
-    # 1️⃣ Download .sra files
-    Write-Host "Downloading SRA file..."
-    prefetch $SRR --output-directory $OutDir
-
-    # Path created by prefetch
-    $SRAfile = Join-Path $OutDir "$SRR\$SRR.sra"
-
-    # 2️⃣ Convert to FASTQ (Paired-end expected)
-    Write-Host "Converting to FASTQ..."
-    fasterq-dump $SRAfile --split-files --outdir $OutDir
-
-    # 3️⃣ Compress FASTQs if present
-    if (Test-Path "$OutDir\${SRR}_1.fastq") {
-        gzip "$OutDir\${SRR}_1.fastq"
-    }
-    if (Test-Path "$OutDir\${SRR}_2.fastq") {
-        gzip "$OutDir\${SRR}_2.fastq"
-    }
-
-    Write-Host "$SRR done."
+# Create the main output folder if needed
+if (!(Test-Path $OutDir)) {
+    New-Item -ItemType Directory -Path $OutDir | Out-Null
 }
 
-Write-Host ""
-Write-Host "All downloads finished!"
+$SRRs = Get-Content $SRR_list
 
+foreach ($SRR in $SRRs) {
+
+    Write-Host "Processing $SRR ..."
+
+    # Make subfolder: OutDir/SRRxxxxxxx
+    $SRRdir = Join-Path $OutDir $SRR
+    if (!(Test-Path $SRRdir)) {
+        New-Item -ItemType Directory -Path $SRRdir | Out-Null
+    }
+
+    # Download SRA and convert to FASTQ (no compression)
+    fasterq-dump $SRR --split-files --outdir $SRRdir
+
+    Write-Host "✓ $SRR completed."
+}
 ```
 
 ## Step 5: Run the script
