@@ -11,5 +11,5 @@
 - Check out the github page: https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit
 - Make sure tools are added to PATH:
 ## Step 4: Run the script
-```Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-.\download_fastq.ps1```
+```Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
+```.\download_fastq.ps1```
