@@ -5,19 +5,21 @@
 <img width="760" height="368" alt="image" src="https://github.com/user-attachments/assets/754c17c6-d0be-4aac-be30-98c689ced27e" />
 
 
-### The link to the paper: https://pmc.ncbi.nlm.nih.gov/articles/PMC10902381/?utm_source=chatgpt.com#CR76
+#### The link to the paper: https://pmc.ncbi.nlm.nih.gov/articles/PMC10902381/?utm_source=chatgpt.com#CR76
 
-## Step 1: Install SRA tool kit
+## First: download the FASTQ files for each read
+
+### Step 1: Install SRA tool kit
 - Check out the github page: https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit
 - Make sure tools are added to PATH:
 
-## Step 2: download metadata
+### Step 2: download metadata
 - For instance: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE130011
 - Go to `SRA Run Selector`
 - Select the files you need and then download `metadata`
 <img width="1831" height="635" alt="image" src="https://github.com/user-attachments/assets/ddb003de-d693-41ff-9a56-d55c7e6f5f2d" />
 
-## Step 3: Create SRR_list.txt
+### Step 3: Create SRR_list.txt
 - Load the CSV
 ```
 $metadata = Import-Csv "C:\Users\pc\Desktop\RNAseq\SraRunTable.csv"
@@ -52,12 +54,38 @@ foreach ($SRR in $SRRs) {
     # Download SRA and convert to FASTQ (no compression)
     fasterq-dump $SRR --split-files --outdir $SRRdir
 
-    Write-Host "✓ $SRR completed."
+    Write-Host "$SRR completed."
 }
 ```
-
-## Step 5: Run the script
+### Step 5: Run the script
 ```
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\download_fastq.ps1
 ```
+## Second: Alignment - tell the computer where each read come from the genome
+- input: FASTQ (raw read)
+- Output: BAM (reads aligned to the genome)
+
+### Step 1: Go to https://www.gencodegenes.org/human/
+- Download Basic gene annotation → CHR → GTF
+  
+Why this one?
+
+It contains only the main chromosomes (no weird haplotypes or patches).
+
+It’s clean and what most RNA-seq pipelines use.
+
+“Basic” = removes low-confidence transcripts you don’t need.
+
+This avoids alignment headaches and makes junction counting easier.
+
+- Download Genome sequence, primary assembly (GRCh38) → PRI → FASTA
+Why this one?
+
+It matches the GTF chromosome names
+
+It’s the standard genome used for most human RNA-seq
+
+No alt haplotypes, no patch sequences — simpler, cleaner, faster alignment
+
+Exactly what STAR expects for normal alignment
