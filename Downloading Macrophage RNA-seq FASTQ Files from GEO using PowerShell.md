@@ -70,22 +70,15 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 - Download Basic gene annotation → CHR → GTF
   
 Why this one?
-
 It contains only the main chromosomes (no weird haplotypes or patches).
-
 It’s clean and what most RNA-seq pipelines use.
-
 “Basic” = removes low-confidence transcripts you don’t need.
-
 This avoids alignment headaches and makes junction counting easier.
 
 - Download Genome sequence, primary assembly (GRCh38) → PRI → FASTA
 Why this one?
-
 It matches the GTF chromosome names
-
 It’s the standard genome used for most human RNA-seq
-
 No alt haplotypes, no patch sequences — simpler, cleaner, faster alignment
-
 Exactly what STAR expects for normal alignment
+
