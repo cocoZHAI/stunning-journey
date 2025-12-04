@@ -82,3 +82,74 @@ It’s the standard genome used for most human RNA-seq
 No alt haplotypes, no patch sequences — simpler, cleaner, faster alignment
 Exactly what STAR expects for normal alignment
 
+### Step 2: download ubuntu (STAR requires Linux system)
+#### Download ubuntu manually
+```
+wsl --install -d Ubuntu
+
+```
+#### Create ubuntu shortcut on the desktop
+- Right click -> "New" -> "shortcut"
+- Enter ``` wsl.exe ``` into the location
+
+#### Create a clean working directory inside Linux
+```
+mkdir -p ~/rnaseq/tools
+mkdir -p ~/rnaseq/genome
+mkdir -p ~/rnaseq/fastq
+cd ~/rnaseq
+
+```
+
+#### Move STAR files from Windows into WSL
+```
+cp -r /mnt/c/Users/pc/Desktop/RNAseq/STAR-2.7.11b ~/rnaseq/tools/
+
+```
+
+#### Make STAR file executible and test the version
+```
+chmod +x bin/Linux_x86_64_static/STAR
+
+```
+```
+bin/Linux_x86_64_static/STAR --version
+```
+
+#### Move your genome files into the genome folder
+```
+cp /mnt/c/Users/pc/Desktop/RNAseq/genome/GRCh38.primary_assembly.genome.fa ~/rnaseq/genome/
+cp /mnt/c/Users/pc/Desktop/RNAseq/genome/gencode.v49.basic.annotation.gtf ~/rnaseq/genome/
+
+```
+#### Generate the STAR genome index
+```
+cd ~/rnaseq/genome                                                      
+~/rnaseq/tools/STAR-2.7.11b/bin/Linux_x86_64_static/STAR \
+  --runThreadN 8 \
+  --runMode genomeGenerate \
+  --genomeDir ./STARindex \
+  --genomeFastaFiles GRCh38.primary_assembly.genome.fa \
+  --sjdbGTFfile gencode.v49.basic.annotation.gtf \
+  --sjdbOverhang 149
+
+```
+#### Align all your FASTQ samples
+```
+cd /mnt/c/Users/pc/Desktop/RNAseq/Macrophage/FASTQ_downloads
+
+for sample in SRR21526559 SRR21526560 SRR21526561 SRR8926870 SRR8926871 SRR8926872 SRR8926873 SRR8926874 SRR8926875 SRR8926876 SRR8926877 SRR8926878
+do
+  echo "Aligning $sample ..."
+  
+  ~/rnaseq/tools/STAR-2.7.11b/bin/Linux_x86_64_static/STAR \
+    --runThreadN 8 \
+    --genomeDir ~/rnaseq/genome/STARindex \
+    --readFilesIn /mnt/c/Users/pc/Desktop/RNAseq/Macrophage/FASTQ_downloads/$sample/${sample}_1.fastq \
+                 /mnt/c/Users/pc/Desktop/RNAseq/Macrophage/FASTQ_downloads/$sample/${sample}_2.fastq \
+    --outFileNamePrefix /mnt/c/Users/pc/Desktop/RNAseq/Macrophage/FASTQ_downloads/$sample/${sample}_ \
+    --outSAMtype BAM SortedByCoordinate
+done
+
+```
+  
