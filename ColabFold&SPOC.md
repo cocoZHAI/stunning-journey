@@ -41,7 +41,7 @@ This code will submit the the same number of jobs to gpu as to the number of pre
 - Step 2: store all the names of within the All_multimer folder in input_folder.txt
 
   ```bash
-  find All_multimer -maxdepth 1 -type d -not -path 'All_multimer' > input_folders.txt
+  find All_multimers -mindepth 1 -maxdepth 1 -type d > input_folders.txt
   ```
 
 - Step 3: run colabfold on each multimer
